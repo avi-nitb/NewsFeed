@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "384624978978",
+    "firebase_url": "https://paulfy-3a684.firebaseio.com",
+    "project_id": "paulfy-3a684",
+    "storage_bucket": "paulfy-3a684.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:384624978978:android:591faa746fbad8fe",
+        "android_client_info": {
+          "package_name": "com.paulfy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "384624978978-eupgmgql20ieq6p4ms211gqionorgs14.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.paulfy",
+            "certificate_hash": "ea72337c1259e8e2ce362090521bd108520b1e76"
+          }
+        },
+        {
+          "client_id": "384624978978-i64i70rgua8pep3nekcek85nlrfrot35.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5r7-63TQ09f7ZTzs8g8_sJlDluP6jKBo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "384624978978-i64i70rgua8pep3nekcek85nlrfrot35.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

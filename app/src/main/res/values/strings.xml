@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Paulfy</string>
+    <string name="ok">OK</string>
+    <string name="something_wrong">Something went wrong</string>
+    <string name="no_data_avail">No data available</string>
+    <string name="timeout">Timed out, please check your internet connection and try again.</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+</resources>
