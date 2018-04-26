@@ -14,7 +14,6 @@ import com.paulfy.R;
 import com.paulfy.application.MyApp;
 import com.paulfy.fragments.PopularTabFragment;
 import com.paulfy.model.NewsModel;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.regex.Matcher;

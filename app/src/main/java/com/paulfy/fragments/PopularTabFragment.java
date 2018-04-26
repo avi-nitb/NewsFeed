@@ -17,6 +17,7 @@ import com.paulfy.adpter.PopularTab_Adapter;
 import com.paulfy.application.AppConstants;
 import com.paulfy.application.SingleInstance;
 import com.paulfy.model.NewsModel;
+import com.paulfy.model.RssModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -52,27 +53,31 @@ public class PopularTabFragment extends CustomFragment implements CustomFragment
     }
 
     @Override
-    public void onJsonObjectResponseReceived(JSONObject o, int callNumber) {
-        if (callNumber == 0) {
+    public void onJsonObjectResponseReceived(JSONObject o, int callNumber)
+    {
+        if(callNumber==0){
 
-            newsModel = new Gson().fromJson(o.toString(), NewsModel.class);
+            newsModel= new Gson().fromJson(o.toString(),NewsModel.class);
             dataList.addAll(newsModel.getData());
             popularTab_adapter.notifyDataSetChanged();
         }
     }
 
     @Override
-    public void onJsonArrayResponseReceived(JSONArray a, int callNumber) {
+    public void onJsonArrayResponseReceived(JSONArray a, int callNumber)
+    {
 
     }
 
     @Override
-    public void onErrorReceived(String error) {
+    public void onErrorReceived(String error)
+    {
 
     }
 
     @Override
-    public void onFeedReceived(String rssData) {
+    public void onFeedReceived(String rssData)
+    {
 
     }
 
