@@ -125,7 +125,15 @@ public class MyApp extends Application {
         }
 
     }
-
+    public static float getDisplayMatrix(Context c) {
+//        WindowManager wm = (WindowManager) ctx
+//                .getSystemService(Context.WINDOW_SERVICE);
+//        Display display = wm.getDefaultDisplay();
+//        Point size = new Point();
+//        display.getSize(size);
+//        int width = size.x;
+        return c.getResources().getDisplayMetrics().density;
+    }
     public static void spinnerStop() {
         if (dialog != null) {
             if (dialog.isShowing()) {
@@ -151,6 +159,19 @@ public class MyApp extends Application {
                     }
         }
         return false;
+    }
+
+    public static boolean isImage(String inFile) {
+        if (inFile.toLowerCase().endsWith(".jpeg")
+                || inFile.toLowerCase().endsWith(".jpg")
+                || inFile.toLowerCase().endsWith(".png")
+                || inFile.toLowerCase().endsWith(".tiff")
+                || inFile.toLowerCase().endsWith(".bmp")
+                && !inFile.toLowerCase().contains("com.")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

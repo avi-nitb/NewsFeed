@@ -3,22 +3,16 @@ package com.paulfy.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.paulfy.CustomActivity;
 import com.paulfy.HomeActivity;
 import com.paulfy.R;
 import com.paulfy.adpter.NewsAdapter;
-import com.paulfy.adpter.StringAdapter;
 import com.paulfy.adpter.ViewPagerAdapter;
 import com.paulfy.model.RssModel;
 
@@ -32,8 +26,7 @@ import java.util.List;
 import fr.arnaudguyon.xmltojsonlib.XmlToJson;
 
 
-public class HomeFragment extends CustomFragment implements CustomFragment.ResponseCallback
-{
+public class HomeFragment extends CustomFragment implements CustomFragment.ResponseCallback {
     private RecyclerView rv_home;
     List<RssModel> dataList = new ArrayList<>();
     NewsAdapter adapter;
@@ -46,22 +39,19 @@ public class HomeFragment extends CustomFragment implements CustomFragment.Respo
     String selectedItem;
     final String[] array = {"News", "Tech", "Business", "Sports", "Entertainment", "Startup", "Education"};
 
-    public HomeFragment()
-    {
+    public HomeFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         ((HomeActivity) getActivity()).toolbar.setVisibility(View.VISIBLE);
         setResponseListener(this);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -92,25 +82,22 @@ public class HomeFragment extends CustomFragment implements CustomFragment.Respo
         return view;
     }
 
-    private void addUrlsToList()
-    {
+    private void addUrlsToList() {
         if (selectedItem.equalsIgnoreCase(array[0])) {
             urls.clear();
             urls.add("https://www.vanguardngr.com/news/feed");
 //            urls.add("http://punchng.com/topics/news/feed/");
-        } else if (selectedItem.equalsIgnoreCase(array[3]))
-        {
+        } else if (selectedItem.equalsIgnoreCase(array[3])) {
             urls.clear();
             urls.add("https://www.completesportsnigeria.com/feed/");
             urls.add("https://www.thesportreview.com/feed/");
             urls.add("http://www.goal.com/en/feeds/news?fmt=rss&ICID=HP");
-        }else if (selectedItem.equalsIgnoreCase(array[2]))
-        {
+        } else if (selectedItem.equalsIgnoreCase(array[2])) {
             urls.clear();
             urls.add("https://www.cnbcafrica.com/feed/");
             urls.add("http://markets.businessinsider.com/rss/news");
             urls.add("https://nairametrics.com/feed/");
-        } else if (selectedItem.equalsIgnoreCase(array[1])){
+        } else if (selectedItem.equalsIgnoreCase(array[1])) {
             urls.clear();
             urls.add("https://techcrunch.com/feed/");
             urls.add("https://techmoran.com/feed/");
@@ -129,51 +116,43 @@ public class HomeFragment extends CustomFragment implements CustomFragment.Respo
 
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
 
     @Override
-    public void onDestroyView()
-    {
+    public void onDestroyView() {
         super.onDestroyView();
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         super.onDestroy();
     }
 
 
     @Override
-    public void onJsonObjectResponseReceived(JSONObject o, int callNumber)
-    {
+    public void onJsonObjectResponseReceived(JSONObject o, int callNumber) {
 
     }
 
     @Override
-    public void onJsonArrayResponseReceived(JSONArray a, int callNumber)
-    {
+    public void onJsonArrayResponseReceived(JSONArray a, int callNumber) {
 
     }
 
     @Override
-    public void onErrorReceived(String error)
-    {
+    public void onErrorReceived(String error) {
 
     }
 
     @Override
-    public void onFeedReceived(String rssData)
-    {
+    public void onFeedReceived(String rssData) {
         rssToJson(rssData);
     }
 
-    private void rssToJson(String sampleXml)
-    {
+    private void rssToJson(String sampleXml) {
         JSONObject jsonObj = null;
         try {
             String xmlString;  // some XML String previously created

@@ -49,6 +49,14 @@
             android:windowSoftInputMode="adjustNothing"></activity>
 
 
+        <activity
+            android:name=".NewsDetailsActivity"
+            android:label="@string/title_activity_home"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustNothing"></activity>
+
+
         <service
             android:name=".MyFirebaseMessagingService">
             <intent-filter>

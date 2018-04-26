@@ -36,6 +36,7 @@ dependencies {
     implementation files('libs/java-json.jar')
     implementation files('libs/org.apache.commons.io.jar')
     implementation 'com.github.smart-fun:XmlToJson:1.4.4'
+    implementation 'com.ss.bannerslider:bannerslider:1.8.0'
 }
 
 

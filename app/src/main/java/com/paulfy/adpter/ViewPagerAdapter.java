@@ -2,39 +2,34 @@ package com.paulfy.adpter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.paulfy.fragments.HomeTabFragment;
 import com.paulfy.fragments.PopularTabFragment;
 
-public class ViewPagerAdapter extends FragmentStatePagerAdapter
-{
+public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     HomeTabFragment homeTabFragment;
     PopularTabFragment popularTabFragment;
 
-    public ViewPagerAdapter(FragmentManager fm, HomeTabFragment homeTabFragment, PopularTabFragment popularTabFragment)
-    {
+    public ViewPagerAdapter(FragmentManager fm, HomeTabFragment homeTabFragment, PopularTabFragment popularTabFragment) {
         super(fm);
-        this.homeTabFragment =homeTabFragment;
-        this.popularTabFragment= popularTabFragment;
+        this.homeTabFragment = homeTabFragment;
+        this.popularTabFragment = popularTabFragment;
     }
 
     @Override
-    public Fragment getItem(int position)
-    {
+    public Fragment getItem(int position) {
         Fragment fragment = null;
-        if(position==0){
+        if (position == 0) {
             return homeTabFragment;
-        } else if (position==1){
+        } else if (position == 1) {
             return popularTabFragment;
         }
         return fragment;
     }
 
     @Override
-    public int getCount()
-    {
+    public int getCount() {
         return 2;
     }
 
