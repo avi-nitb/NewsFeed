@@ -80,7 +80,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         public MyViewHolder(View itemView) {
             super(itemView);
             txt_comments = itemView.findViewById(R.id.comments_counts);
-//            txt_cat = itemView.findViewById(R.id.txt_cat);
+//            txt_likes = itemView.findViewById(R.id.txt_likes);
             txt_date = itemView.findViewById(R.id.txt_date);
             overflow = itemView.findViewById(R.id.overflow);
             txt_description = itemView.findViewById(R.id.txt_description);

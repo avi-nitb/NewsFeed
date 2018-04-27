@@ -1,5 +1,6 @@
 package com.paulfy.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,10 +13,12 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
+import com.paulfy.NewsDetailsActivity;
 import com.paulfy.R;
 import com.paulfy.adpter.HomeTabAdapter;
 import com.paulfy.adpter.PopularTab_Adapter;
 import com.paulfy.application.AppConstants;
+import com.paulfy.application.SingleInstance;
 import com.paulfy.model.CategoryModel;
 import com.paulfy.model.NewsModel;
 
@@ -143,5 +146,10 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
     public void onFeedReceived(String rssData)
     {
 
+    }
+
+    public void clickNews(NewsModel.Data data) {
+        SingleInstance.getInstance().setDataToLoad(data);
+        startActivity(new Intent(getActivity(),NewsDetailsActivity.class));
     }
 }

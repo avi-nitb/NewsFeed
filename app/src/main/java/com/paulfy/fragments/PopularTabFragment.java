@@ -55,11 +55,14 @@ public class PopularTabFragment extends CustomFragment implements CustomFragment
     @Override
     public void onJsonObjectResponseReceived(JSONObject o, int callNumber)
     {
-        if(callNumber==0){
+        if(callNumber==0 && o.optInt("code")==200){
 
             newsModel= new Gson().fromJson(o.toString(),NewsModel.class);
             dataList.addAll(newsModel.getData());
             popularTab_adapter.notifyDataSetChanged();
+        } else if (callNumber==4 && o.optInt("code")==200){
+            popularTab_adapter.notifyDataSetChanged();
+
         }
     }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
@@ -42,7 +43,7 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         TextView toolbar_text = findViewById(R.id.toolbar_text);
-        toolbar_text.setText("Details");
+        toolbar_text.setText("");
 
 
         d = SingleInstance.getInstance().getDataToLoad();
@@ -72,6 +73,13 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
         if (imgUrls.size() == 0) {
             bannerSlider.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.details_menu,menu);
+        return (true);
     }
 
     public List<String> extractUrls(String text) {

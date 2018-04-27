@@ -10,15 +10,21 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.loopj.android.http.RequestParams;
 import com.paulfy.R;
+import com.paulfy.application.AppConstants;
 import com.paulfy.application.MyApp;
+import com.paulfy.fragments.HomeTabFragment;
 import com.paulfy.fragments.PopularTabFragment;
 import com.paulfy.model.NewsModel;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.paulfy.application.MyApp.getApplication;
 import static com.paulfy.application.MyApp.isImage;
 
 public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.MyViewHolder> {
@@ -48,7 +54,7 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
 
         NewsModel.Data current = data.get(position);
         holder.txt_date.setText(current.getCreated_at());
-        holder.txt_cat.setText(String.valueOf(current.getLikes().size()));
+        holder.txt_likes.setText(String.valueOf(current.getLikes().size()));
         holder.txt_comments.setText("" + current.getComment().size());
         holder.txt_description.setText(current.getTitle());
 
@@ -74,7 +80,7 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView txt_comments, txt_date, txt_cat, txt_description;
+        TextView txt_comments, txt_date, txt_likes, txt_description;
         ImageButton overflow;
         ImageView img;
         RelativeLayout rl_img;
@@ -82,7 +88,7 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
         public MyViewHolder(View itemView) {
             super(itemView);
             txt_comments = itemView.findViewById(R.id.comments_counts);
-            txt_cat = itemView.findViewById(R.id.likescount);
+            txt_likes = itemView.findViewById(R.id.likescount);
             txt_date = itemView.findViewById(R.id.txt_date);
             overflow = itemView.findViewById(R.id.overflow);
             txt_description = itemView.findViewById(R.id.txt_description);
@@ -91,6 +97,7 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
             txt_comments.setOnClickListener(this);
             overflow.setOnClickListener(this);
             itemView.setOnClickListener(this);
+            txt_likes.setOnClickListener(this);
 
 
         }
@@ -98,8 +105,35 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
         @Override
         public void onClick(View v) {
             if (v == itemView) {
-                ((PopularTabFragment) context).clickNews(data.get(getLayoutPosition()));
+                try {
+                    ((PopularTabFragment) context).clickNews(data.get(getLayoutPosition()));
+                } catch (Exception e){
+
+                    ((HomeTabFragment) context).clickNews(data.get(getLayoutPosition()));
+                }
                 //MyApp.popMessage("Details", data.get(getLayoutPosition()).getDescription(), context);
+            } else if (v== txt_likes) {
+                int j = data.get(getLayoutPosition()).getLikes().size();
+                List<Integer> likedUser = new ArrayList<>();
+                for (int i = 0; i < j; i++) {
+                    if (data.get(getLayoutPosition()).getLikes().get(i).getId() == MyApp.getApplication().readUser().getId()) {
+                        likedUser.add((Integer) data.get(getLayoutPosition()).getLikes().get(i).getId());
+                    }
+                }
+                if (likedUser.contains(MyApp.getApplication().readUser().getId())) {
+                    RequestParams p = new RequestParams();
+                    p.put("news_id", data.get(getLayoutPosition()).getId());
+                    p.put("user_id", MyApp.getApplication().readUser().getId());
+                    p.put("like", 0);
+                    ((PopularTabFragment) context).postCall(getApplication(), AppConstants.BASE_URL + "likeNews", p, "", 4);
+                } else {
+                    RequestParams p = new RequestParams();
+                    p.put("news_id", data.get(getLayoutPosition()).getId());
+                    p.put("user_id", MyApp.getApplication().readUser().getId());
+                    p.put("like", 1);
+                    ((PopularTabFragment) context).postCall(getApplication(), AppConstants.BASE_URL + "likeNews", p, "", 4);
+                    notifyDataSetChanged();
+                }
             }
 
         }
