@@ -716,4 +716,54 @@ public class MyApp extends Application {
             e.printStackTrace();
         }
     }
+
+    public HashMap<String,Integer>  readRequestMap() {
+        String path = "/data/data/" + ctx.getPackageName()
+                + "/req_map.ser";
+        File f = new File(path);
+        HashMap<String,Integer> requestMap = new HashMap<>();
+        if (f.exists()) {
+            try {
+                System.gc();
+                FileInputStream fileIn = new FileInputStream(path);
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+                requestMap = (HashMap<String,Integer>) in.readObject();
+                in.close();
+                fileIn.close();
+            } catch (StreamCorruptedException e) {
+                e.printStackTrace();
+            } catch (OptionalDataException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return requestMap;
+    }
+
+    public void writeRequestMap(HashMap<String,Integer> requestMap) {
+        try {
+            String path = "/data/data/" + ctx.getPackageName()
+                    + "/req_map.ser";
+            File f = new File(path);
+            if (f.exists()) {
+                f.delete();
+                System.out.println("old file deleted>>>>>>>>> ");
+            }
+            FileOutputStream fileOut = new FileOutputStream(path);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(requestMap);
+            out.close();
+            fileOut.close();
+            System.out.println("my file replaced>>>>>>>>> ");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

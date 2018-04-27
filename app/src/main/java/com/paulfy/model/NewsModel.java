@@ -59,6 +59,16 @@ public class NewsModel implements Serializable
         private String news_upload_time;
         private String created_at;
         private String updated_at;
+
+        public boolean isLike() {
+            return isLike;
+        }
+
+        public void setLike(boolean like) {
+            isLike = like;
+        }
+
+        private boolean isLike;
         private List<Likes> likes;
         private List<Comments> comment;
 

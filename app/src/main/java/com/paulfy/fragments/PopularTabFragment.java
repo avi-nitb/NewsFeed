@@ -42,11 +42,11 @@ public class PopularTabFragment extends CustomFragment implements CustomFragment
         setResponseListener(this);
         RequestParams p = new RequestParams();
         p.put("categories_id[0]", 1);
-        p.put("categories_id[1]", 2);
-        p.put("categories_id[2]", 3);
-        p.put("categories_id[3]", 4);
-        p.put("categories_id[4]", 5);
-        postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "Please Wait", 0);
+//        p.put("categories_id[1]", 2);
+//        p.put("categories_id[2]", 3);
+//        p.put("categories_id[3]", 4);
+//        p.put("categories_id[4]", 5);
+        postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "", 0);
         popularTab_adapter = new PopularTab_Adapter(PopularTabFragment.this, dataList);
         rv_home.setAdapter(popularTab_adapter);
         return myView;
