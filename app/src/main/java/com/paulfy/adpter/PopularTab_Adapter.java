@@ -1,5 +1,7 @@
 package com.paulfy.adpter;
 
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
+import com.paulfy.CommentsActivity;
 import com.paulfy.R;
 import com.paulfy.application.AppConstants;
 import com.paulfy.application.MyApp;
@@ -19,6 +22,7 @@ import com.paulfy.fragments.PopularTabFragment;
 import com.paulfy.model.NewsModel;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -30,6 +34,7 @@ import static com.paulfy.application.MyApp.isImage;
 public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.MyViewHolder> {
     Fragment context;
     List<NewsModel.Data> data;
+    List<NewsModel.Data.Comments> commentsList;
     float displayMatrix;
     int imgWidth;
     int imgHeight;
@@ -98,6 +103,7 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
             overflow.setOnClickListener(this);
             itemView.setOnClickListener(this);
             txt_likes.setOnClickListener(this);
+            txt_comments.setOnClickListener(this);
 
 
         }
@@ -121,19 +127,43 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
                     }
                 }
                 if (likedUser.contains(MyApp.getApplication().readUser().getId())) {
-                    RequestParams p = new RequestParams();
-                    p.put("news_id", data.get(getLayoutPosition()).getId());
-                    p.put("user_id", MyApp.getApplication().readUser().getId());
-                    p.put("like", 0);
-                    ((PopularTabFragment) context).postCall(getApplication(), AppConstants.BASE_URL + "likeNews", p, "", 4);
+                    try {
+                        RequestParams p = new RequestParams();
+                        p.put("news_id", data.get(getLayoutPosition()).getId());
+                        p.put("user_id", MyApp.getApplication().readUser().getId());
+                        p.put("like", 0);
+                        ((PopularTabFragment) context).postCall(getApplication(), AppConstants.BASE_URL + "likeNews", p, "", 4);
+                    } catch (Exception e) {
+                        RequestParams p = new RequestParams();
+                        p.put("news_id", data.get(getLayoutPosition()).getId());
+                        p.put("user_id", MyApp.getApplication().readUser().getId());
+                        p.put("like", 0);
+                        ((HomeTabFragment) context).postCall(getApplication(), AppConstants.BASE_URL + "likeNews", p, "", 4);
+                    }
                 } else {
-                    RequestParams p = new RequestParams();
-                    p.put("news_id", data.get(getLayoutPosition()).getId());
-                    p.put("user_id", MyApp.getApplication().readUser().getId());
-                    p.put("like", 1);
-                    ((PopularTabFragment) context).postCall(getApplication(), AppConstants.BASE_URL + "likeNews", p, "", 4);
+                    try {
+                        RequestParams p = new RequestParams();
+                        p.put("news_id", data.get(getLayoutPosition()).getId());
+                        p.put("user_id", MyApp.getApplication().readUser().getId());
+                        p.put("like", 1);
+                        ((PopularTabFragment) context).postCall(getApplication(), AppConstants.BASE_URL + "likeNews", p, "", 4);
+                    } catch (Exception e) {
+                        RequestParams p = new RequestParams();
+                        p.put("news_id", data.get(getLayoutPosition()).getId());
+                        p.put("user_id", MyApp.getApplication().readUser().getId());
+                        p.put("like", 1);
+                        ((HomeTabFragment) context).postCall(getApplication(), AppConstants.BASE_URL + "likeNews", p, "", 4);
+                    }
                     notifyDataSetChanged();
                 }
+            } else if (v== txt_comments){
+
+                commentsList= new ArrayList<>();
+                commentsList.addAll(data.get(getLayoutPosition()).getComment());
+                Intent i= new Intent(getApplication(), CommentsActivity.class);
+                        i.putExtra("news_id", data.get(getLayoutPosition()).getId());
+                        i.putExtra("comments", (Serializable) commentsList);
+                context.startActivity(i);
             }
 
         }

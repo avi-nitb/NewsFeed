@@ -185,6 +185,9 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
             popularTab_adapter = new PopularTab_Adapter(HomeTabFragment.this, newsdata);
             rv_news.setAdapter(popularTab_adapter);
             popularTab_adapter.notifyDataSetChanged();
+        }else if (callNumber==4 && o.optInt("code")==200){
+            popularTab_adapter.notifyDataSetChanged();
+
         }
 
     }

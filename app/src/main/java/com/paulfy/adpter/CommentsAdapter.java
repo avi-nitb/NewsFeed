@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.paulfy.R;
+import com.paulfy.model.NewsModel;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,11 +19,11 @@ import java.util.List;
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyViewHolder> {
 
-    List<String> data = Collections.emptyList();
+    List<NewsModel.Data.Comments> data = Collections.emptyList();
     private LayoutInflater inflater;
     private Context context;
 
-    public CommentsAdapter(Context context, List<String> data) {
+    public CommentsAdapter(Context context, List<NewsModel.Data.Comments> data) {
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.data = data;
@@ -39,21 +40,24 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-//        String current = data.get(position);
-//        holder.txt_value.setText(current);
+        NewsModel.Data.Comments current = data.get(position);
+        holder.txt_value.setText(current.getComment());
+//        holder.username.setText(current.getUser_id());
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+
+        return data.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView txt_value;
+        TextView txt_value, username;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-//            txt_value = (TextView) itemView.findViewById(R.id.txt_value);
+            txt_value = (TextView) itemView.findViewById(R.id.txt_comment);
+            username = (TextView) itemView.findViewById(R.id.username);
         }
     }
 }

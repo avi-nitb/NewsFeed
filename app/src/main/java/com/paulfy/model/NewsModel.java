@@ -5,6 +5,7 @@ import java.util.List;
 
 public class NewsModel implements Serializable
 {
+    private static final long serialVersionUID = 854564567L;
     private int code;
     private String status;
     private String message;
@@ -241,8 +242,74 @@ public class NewsModel implements Serializable
             }
         }
 
-        public class Comments{
+        public class Comments implements Serializable{
 
+            private int id;
+            private int news_id;
+            private int user_id;
+            private String  comment;
+            private String  created_at;
+            private String  updated_at;
+
+            public int getId()
+            {
+                return id;
+            }
+
+            public void setId(int id)
+            {
+                this.id = id;
+            }
+
+            public int getNews_id()
+            {
+                return news_id;
+            }
+
+            public void setNews_id(int news_id)
+            {
+                this.news_id = news_id;
+            }
+
+            public int getUser_id()
+            {
+                return user_id;
+            }
+
+            public void setUser_id(int user_id)
+            {
+                this.user_id = user_id;
+            }
+
+            public String getComment()
+            {
+                return comment;
+            }
+
+            public void setComment(String comment)
+            {
+                this.comment = comment;
+            }
+
+            public String getCreated_at()
+            {
+                return created_at;
+            }
+
+            public void setCreated_at(String created_at)
+            {
+                this.created_at = created_at;
+            }
+
+            public String getUpdated_at()
+            {
+                return updated_at;
+            }
+
+            public void setUpdated_at(String updated_at)
+            {
+                this.updated_at = updated_at;
+            }
         }
     }
 }

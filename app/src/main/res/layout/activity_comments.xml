@@ -188,14 +188,21 @@
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
+        android:weightSum="10"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/footer_bg">
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="9"
+            android:layout_height="wrap_content">
+
         <EditText
+            android:id="@+id/edt_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -206,5 +213,20 @@
             android:hint="Add a comment"
             android:padding="8dp"
             android:textSize="12sp" />
-    </RelativeLayout>
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/btn_postComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/ic_send"
+            android:padding="8dp"/>
+    </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>
