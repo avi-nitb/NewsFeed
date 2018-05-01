@@ -29,6 +29,7 @@ public class CommentsActivity extends CustomActivity implements CustomActivity.R
     private TextView btn_postComment;
     private List<NewsModel.Data.Comments> commentList= new ArrayList<>();
     private int news_id;
+    CommentsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class CommentsActivity extends CustomActivity implements CustomActivity.R
         setResponseListener(this);
         rv_comments = findViewById(R.id.rv_comments);
         rv_comments.setLayoutManager(new LinearLayoutManager(getContext()));
-        CommentsAdapter adapter = new CommentsAdapter(getContext(), commentList);
+        adapter = new CommentsAdapter(getContext(), commentList);
         rv_comments.setAdapter(adapter);
     }
 
@@ -81,6 +82,12 @@ public class CommentsActivity extends CustomActivity implements CustomActivity.R
         if (callNumber==1 && o.optInt("code")==200){
             MyApp.showMassage(getContext(), "Comment Posted Successfully");
             edt_comment.setText("");
+            NewsModel.Data.Comments c= new NewsModel().new Data().new Comments();
+            c.setCreated_at(o.optJSONObject("data").optString("created_at"));
+            c.setComment(o.optJSONObject("data").optString("comment"));
+            commentList.add(c);
+            adapter.notifyDataSetChanged();
+
         }
     }
 

@@ -5,9 +5,8 @@
 
     <item
         android:id="@+id/action_bookmark"
-        android:icon="@drawable/ic_bookmrk"
+        android:icon="@drawable/bookmark_white"
         android:title="Search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
 
 
@@ -15,14 +14,12 @@
         android:id="@+id/action_fav"
         android:icon="@drawable/ic_fav"
         android:title="Search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
 
     <item
         android:id="@+id/action_twitter"
         android:icon="@drawable/ic_twitter"
         android:title="Search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
 
 

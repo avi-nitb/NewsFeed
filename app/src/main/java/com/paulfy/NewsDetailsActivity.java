@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.loopj.android.http.RequestParams;
+import com.paulfy.application.AppConstants;
 import com.paulfy.application.MyApp;
 import com.paulfy.application.SingleInstance;
 import com.paulfy.model.NewsModel;
@@ -28,7 +30,7 @@ import ss.com.bannerslider.views.BannerSlider;
 
 public class NewsDetailsActivity extends CustomActivity implements CustomActivity.ResponseCallback {
 
-    private TextView txt_description;
+    private TextView txt_description, txt_title, txt_cat_date;
     private List<String> imgUrls = new ArrayList<>();
     private BannerSlider bannerSlider;
     private NewsModel.Data d;
@@ -74,11 +76,17 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
         if (imgUrls.size() == 0) {
             bannerSlider.setVisibility(View.GONE);
         }
+
+
+        txt_cat_date = findViewById(R.id.txt_cat_date);
+        txt_title = findViewById(R.id.txt_title);
+
+        txt_cat_date.setText(d.getNews_upload_time());
+        txt_title.setText(d.getTitle());
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_bookmark:
 
@@ -87,9 +95,8 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        getMenuInflater().inflate(R.menu.details_menu,menu);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.details_menu, menu);
         return (true);
 
     }
@@ -148,6 +155,15 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
     @Override
     public void onFeedReceived(String error) {
 
+    }
+
+
+    public void callSaveApi(int id) {
+        RequestParams p = new RequestParams();
+        p.put("news_id", id);
+        p.put("user_id", MyApp.getApplication().readUser().getId());
+
+        postCall(NewsDetailsActivity.this, AppConstants.BASE_URL + "bookmarkNews", p, "Saving...", 5);
     }
 
 

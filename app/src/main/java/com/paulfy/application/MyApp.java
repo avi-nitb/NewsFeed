@@ -31,6 +31,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.MobileAds;
 import com.paulfy.R;
 import com.paulfy.model.User;
 
@@ -81,7 +82,7 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        MobileAds.initialize(this, "ca-app-pub-9072765546752621/8286224024");
         ctx = getApplicationContext();
         myApplication = this;
     }

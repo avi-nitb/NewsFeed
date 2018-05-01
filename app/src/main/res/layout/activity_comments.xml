@@ -17,7 +17,7 @@
             android:layout_centerVertical="true"
             android:adjustViewBounds="true"
             android:background="@null"
-            android:padding="15dp"
+            android:padding="20dp"
             android:scaleType="fitXY"
             android:src="@drawable/close" />
 
@@ -37,126 +37,126 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/rl_bottom"
         android:layout_below="@+id/rl_top"
         android:layout_marginTop="5dp"
         android:background="@color/white"
-        android:layout_above="@+id/rl_bottom"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:padding="5dp"
-            android:text="Source/Time"
-            android:textSize="15sp" />
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="15dp"-->
+        <!--android:padding="5dp"-->
+        <!--android:text="Source/Time"-->
+        <!--android:textSize="15sp" />-->
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:alpha=".6"
-            android:background="@color/black"></View>
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1px"-->
+        <!--android:alpha=".6"-->
+        <!--android:background="@color/black"></View>-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:maxLines="2"
-            android:text="Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet "
-            android:textColor="@color/black"
-            android:textSize="10dp" />
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:maxLines="2"-->
+        <!--android:text="Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet "-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="10dp" />-->
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="6dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/img_comment" />
+        <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:layout_marginTop="6dp"-->
+        <!--android:scaleType="centerInside"-->
+        <!--android:src="@drawable/img_comment" />-->
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:alpha=".5"
-            android:background="@color/black"></View>
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1px"-->
+        <!--android:alpha=".5"-->
+        <!--android:background="@color/black"></View>-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal">
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/white"-->
+        <!--android:orientation="horizontal">-->
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+        <!--<RelativeLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1">-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:alpha=".5"
-                    android:drawableLeft="@drawable/arrow_up"
-                    android:drawablePadding="10dp"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="7.5k"
-                    android:textColor="@color/black" />
-            </RelativeLayout>
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:alpha=".5"-->
+        <!--android:drawableLeft="@drawable/arrow_up"-->
+        <!--android:drawablePadding="10dp"-->
+        <!--android:gravity="center"-->
+        <!--android:padding="5dp"-->
+        <!--android:text="7.5k"-->
+        <!--android:textColor="@color/black" />-->
+        <!--</RelativeLayout>-->
 
-            <View
-                android:layout_width="1px"
-                android:layout_height="25dp"
-                android:layout_gravity="center_vertical"
-                android:alpha=".6"
-                android:background="@color/black"></View>
+        <!--<View-->
+        <!--android:layout_width="1px"-->
+        <!--android:layout_height="25dp"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:alpha=".6"-->
+        <!--android:background="@color/black"></View>-->
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+        <!--<RelativeLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1">-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:alpha=".5"
-                    android:drawableLeft="@drawable/comments"
-                    android:drawablePadding="10dp"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="720"
-                    android:textColor="@color/black" />
-            </RelativeLayout>
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:alpha=".5"-->
+        <!--android:drawableLeft="@drawable/comments"-->
+        <!--android:drawablePadding="10dp"-->
+        <!--android:gravity="center"-->
+        <!--android:padding="5dp"-->
+        <!--android:text="720"-->
+        <!--android:textColor="@color/black" />-->
+        <!--</RelativeLayout>-->
 
-            <View
-                android:layout_width="1px"
-                android:layout_height="25dp"
-                android:layout_gravity="center_vertical"
-                android:alpha=".6"
-                android:background="@color/black"></View>
+        <!--<View-->
+        <!--android:layout_width="1px"-->
+        <!--android:layout_height="25dp"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:alpha=".6"-->
+        <!--android:background="@color/black"></View>-->
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+        <!--<RelativeLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1">-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:alpha=".5"
-                    android:drawableLeft="@drawable/ic_share"
-                    android:drawablePadding="10dp"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="Share"
-                    android:textColor="@color/black" />
-            </RelativeLayout>
-        </LinearLayout>
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:alpha=".5"-->
+        <!--android:drawableLeft="@drawable/ic_share"-->
+        <!--android:drawablePadding="10dp"-->
+        <!--android:gravity="center"-->
+        <!--android:padding="5dp"-->
+        <!--android:text="Share"-->
+        <!--android:textColor="@color/black" />-->
+        <!--</RelativeLayout>-->
+        <!--</LinearLayout>-->
 
         <View
             android:layout_width="match_parent"
@@ -191,42 +191,44 @@
     <LinearLayout
         android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
-        android:weightSum="10"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/footer_bg">
+        android:background="@drawable/footer_bg"
+        android:weightSum="10">
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="9"
-            android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/edt_comment"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/edit_comment"
-            android:hint="Add a comment"
-            android:padding="8dp"
-            android:textSize="12sp" />
+            android:layout_weight="9">
+
+            <EditText
+                android:id="@+id/edt_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/edit_comment"
+                android:hint="Add a comment"
+                android:padding="8dp"
+                android:textSize="12sp" />
         </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/btn_postComment"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/ic_send"
-            android:padding="8dp"/>
-    </LinearLayout>
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/btn_postComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ic_send"
+                android:padding="8dp" />
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

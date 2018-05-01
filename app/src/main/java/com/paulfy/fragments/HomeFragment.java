@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.paulfy.HomeActivity;
 import com.paulfy.R;
@@ -38,6 +39,7 @@ public class HomeFragment extends CustomFragment implements CustomFragment.Respo
     List<String> urls = new ArrayList<>();
     String selectedItem;
     final String[] array = {"News", "Tech", "Business", "Sports", "Entertainment", "Startup", "Education"};
+
 
     public HomeFragment() {
         // Required empty public constructor

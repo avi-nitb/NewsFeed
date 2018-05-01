@@ -42,6 +42,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
     public void onBindViewHolder(MyViewHolder holder, int position) {
         NewsModel.Data.Comments current = data.get(position);
         holder.txt_value.setText(current.getComment());
+        holder.username.setText(current.getCreated_at());
 //        holder.username.setText(current.getUser_id());
     }
 

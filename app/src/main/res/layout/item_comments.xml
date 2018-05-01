@@ -30,7 +30,7 @@
             android:maxLines="2"
             android:text="Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet"
             android:textColor="@color/black"
-            android:textSize="10sp" />
+            android:textSize="15sp" />
 
 
     </RelativeLayout>
@@ -44,7 +44,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:background="@color/white"
         android:orientation="horizontal">
 
@@ -85,7 +85,7 @@
                 android:drawableLeft="@drawable/ic_reply"
                 android:drawablePadding="10dp"
                 android:gravity="center"
-                android:padding="5dp"
+
                 android:text="Reply"
 
                 android:textColor="@color/black" />

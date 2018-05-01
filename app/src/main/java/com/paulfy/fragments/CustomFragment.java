@@ -1,6 +1,9 @@
 package com.paulfy.fragments;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -8,6 +11,9 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -84,7 +90,7 @@ public class CustomFragment extends Fragment implements View.OnClickListener {
 
     public void postCall(Context c, String url, RequestParams p, String loadingMsg, final int callNumber) {
         if (!TextUtils.isEmpty(loadingMsg))
-            MyApp.spinnerStart(c, loadingMsg);
+            showLoadingDialog("");
         Log.d("URl:", url);
         Log.d("Request:", p.toString());
         AsyncHttpClient client = new AsyncHttpClient();
@@ -94,6 +100,7 @@ public class CustomFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onSuccess(int statusCode, Header[] headers, final JSONObject response) {
                 MyApp.spinnerStop();
+                dismissDialog();
                 Log.d("Response:", response.toString());
                 try {
                     responseCallback.onJsonObjectResponseReceived(response, callNumber);
@@ -107,6 +114,7 @@ public class CustomFragment extends Fragment implements View.OnClickListener {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
                 MyApp.spinnerStop();
+                dismissDialog();
                 if (statusCode == 0) {
                     responseCallback.onErrorReceived(getString(R.string.timeout));
                 } else {
@@ -117,6 +125,7 @@ public class CustomFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 MyApp.spinnerStop();
+                dismissDialog();
                 if (statusCode == 0) {
                     responseCallback.onErrorReceived(getString(R.string.timeout));
                 } else {
@@ -182,6 +191,7 @@ public class CustomFragment extends Fragment implements View.OnClickListener {
         void onJsonArrayResponseReceived(JSONArray a, int callNumber);
 
         void onErrorReceived(String error);
+
         void onFeedReceived(String rssData);
 
     }
@@ -203,7 +213,7 @@ public class CustomFragment extends Fragment implements View.OnClickListener {
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
-        protected Boolean doInBackground(String ... params) {
+        protected Boolean doInBackground(String... params) {
             if (TextUtils.isEmpty(params[0]))
                 return false;
 
@@ -228,7 +238,7 @@ public class CustomFragment extends Fragment implements View.OnClickListener {
         protected void onPostExecute(Boolean success) {
             if (!callStop_num) {
                 MyApp.spinnerStop();
-                callStop_num=true;
+                callStop_num = true;
             }
             if (success) {
 
@@ -239,6 +249,34 @@ public class CustomFragment extends Fragment implements View.OnClickListener {
                         Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private Dialog dialog;
+
+    public void dismissDialog() {
+        try {
+            dialog.dismiss();
+        } catch (Exception e) {
+        }
+
+    }
+    public void showLoadingDialog(String message) {
+        dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00ffffff")));
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_loader);
+
+        TextView txt_load_message = dialog.findViewById(R.id.txt_load_message);
+        txt_load_message.setText(message);
+
+        dialog.show();
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = -1;
+        lp.height = -1;
+        dialog.getWindow().setAttributes(lp);
+        dialog.show();
     }
 
 }

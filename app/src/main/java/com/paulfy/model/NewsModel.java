@@ -61,6 +61,27 @@ public class NewsModel implements Serializable
         private String created_at;
         private String updated_at;
 
+        private int likeCount;
+
+        public int getLikeCount() {
+            return likeCount;
+        }
+
+        public void setLikeCount(int likeCount) {
+            this.likeCount = likeCount;
+        }
+
+        public int getCommentCount() {
+            return commentCount;
+        }
+
+        public void setCommentCount(int commentCount) {
+            this.commentCount = commentCount;
+        }
+
+        private int commentCount;
+
+
         public boolean isLike() {
             return isLike;
         }

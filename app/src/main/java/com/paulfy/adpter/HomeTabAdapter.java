@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.paulfy.R;
 import com.paulfy.fragments.HomeTabFragment;
 import com.paulfy.model.CategoryModel;
+import com.paulfy.model.NewsModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,4 +86,6 @@ public class HomeTabAdapter extends RecyclerView.Adapter<HomeTabAdapter.MyViewHo
 
         }
     }
+
+
 }

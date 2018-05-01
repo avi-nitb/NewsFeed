@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_history"
+        android:drawableLeft="@drawable/history"
         android:drawablePadding="15dp"
         android:padding="10dp"
         android:text="History"
@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_save"
+        android:drawableLeft="@drawable/saved"
         android:drawablePadding="15dp"
         android:padding="10dp"
         android:text="Saved"
@@ -31,7 +31,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/upvoted_arrow"
+        android:drawableLeft="@drawable/upvoted"
         android:drawablePadding="20dp"
         android:padding="10dp"
         android:text="Upvoted"
@@ -42,7 +42,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_block"
+        android:drawableLeft="@drawable/hidden"
         android:drawablePadding="20dp"
         android:padding="10dp"
         android:text="Hidden"
