@@ -21,20 +21,21 @@
                 android:id="@+id/txt_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/bentonsans_black"
                 android:padding="10dp"
-                android:text=""
+                android:lineSpacingExtra="5dp"
                 android:textColor="@color/black"
-                android:textSize="28sp"
-                android:textStyle="bold" />
+                android:textSize="28sp" />
 
             <TextView
                 android:id="@+id/txt_cat_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/bentonsans_light"
+                android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
                 android:text="category and date time"
-                android:textSize="16sp"
-                android:paddingBottom="10dp"/>
+                android:textSize="16sp" />
 
             <ss.com.bannerslider.views.BannerSlider
                 android:id="@+id/banner_slider1"
@@ -47,6 +48,7 @@
                 android:id="@+id/txt_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/bentonsans_light"
                 android:padding="10dp"
                 android:text="sdfdf"
                 android:textColor="@color/black"

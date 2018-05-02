@@ -19,7 +19,7 @@ import com.loopj.android.http.RequestParams;
 import com.paulfy.HomeActivity;
 import com.paulfy.NewsDetailsActivity;
 import com.paulfy.R;
-import com.paulfy.adpter.PopularTab_Adapter;
+import com.paulfy.adpter.SavedNewsAdapter;
 import com.paulfy.application.AppConstants;
 import com.paulfy.application.MyApp;
 import com.paulfy.application.SingleInstance;
@@ -31,9 +31,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PopularTabFragment extends CustomFragment implements CustomFragment.ResponseCallback , SearchView.OnQueryTextListener{
+public class HiddenNewsFragment extends CustomFragment implements CustomFragment.ResponseCallback , SearchView.OnQueryTextListener{
     RecyclerView rv_home;
-    PopularTab_Adapter popularTab_adapter;
+    SavedNewsAdapter popularTab_adapter;
     List<NewsModel.Data> dataList = new ArrayList<>();
     NewsModel newsModel = new NewsModel();
     @Override
@@ -56,13 +56,10 @@ public class PopularTabFragment extends CustomFragment implements CustomFragment
         rv_home.setLayoutManager(new LinearLayoutManager(getContext()));
         setResponseListener(this);
         RequestParams p = new RequestParams();
-        p.put("categories_id[0]", 3);
-//        p.put("categories_id[1]", 2);
-//        p.put("categories_id[2]", 3);
-//        p.put("categories_id[3]", 4);
-//        p.put("categories_id[4]", 5);
-        postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "kjkj", 0);
-        popularTab_adapter = new PopularTab_Adapter(PopularTabFragment.this, dataList);
+        p.put("user_id", MyApp.getApplication().readUser().getId());
+
+        postCall(getContext(), AppConstants.BASE_URL + "getAllHideNews", p, "loading", 0);
+        popularTab_adapter = new SavedNewsAdapter(HiddenNewsFragment.this, dataList);
         rv_home.setAdapter(popularTab_adapter);
         return myView;
     }
@@ -84,7 +81,7 @@ public class PopularTabFragment extends CustomFragment implements CustomFragment
             MyApp.showMassage(getActivity(), "Saved successfully");
         } else if (callNumber == 6 && o.optInt("code") == 200) {
             MyApp.showMassage(getActivity(), "Hide successfully");
-        } else {
+        }else {
             MyApp.showMassage(getActivity(), o.optString("message"));
         }
     }
@@ -130,14 +127,14 @@ public class PopularTabFragment extends CustomFragment implements CustomFragment
                 new MenuItemCompat.OnActionExpandListener() {
                     @Override
                     public boolean onMenuItemActionCollapse(MenuItem item) {
-// Do something when collapsed
+                        // Do something when collapsed
                         popularTab_adapter.setFilter(dataList);
                         return true; // Return true to collapse action view
                     }
 
                     @Override
                     public boolean onMenuItemActionExpand(MenuItem item) {
-// Do something when expanded
+                        // Do something when expanded
                         return true; // Return true to expand action view
                     }
                 });

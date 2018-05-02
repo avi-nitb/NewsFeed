@@ -12,6 +12,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
         android:text="Source Name"
+        android:fontFamily="@font/bentonsans_light"
         android:alpha=".6"
         android:textColor="@color/black"
         android:textSize="16sp" />
@@ -24,6 +25,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/bentonsans_light"
             android:layout_marginLeft="15dp"
             android:text="Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet"
             android:textColor="@color/black"
@@ -57,6 +59,7 @@
                 android:alpha=".5"
                 android:drawablePadding="10dp"
                 android:gravity="center"
+                android:fontFamily="@font/bentonsans_light"
                 android:padding="5dp"
                 android:text="Read More"
                 android:textColor="@color/black" />
@@ -79,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:alpha=".5"
+                android:fontFamily="@font/bentonsans_light"
                 android:drawableLeft="@drawable/ic_reply"
                 android:drawablePadding="10dp"
                 android:gravity="center"
@@ -106,6 +110,7 @@
                 android:layout_centerInParent="true"
                 android:alpha=".5"
                 android:drawableLeft="@drawable/arrow_up"
+                android:fontFamily="@font/bentonsans_light"
                 android:drawableRight="@drawable/arrow_down"
                 android:drawablePadding="3dp"
                 android:gravity="center"

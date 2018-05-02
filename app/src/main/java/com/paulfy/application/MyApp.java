@@ -82,7 +82,7 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        MobileAds.initialize(this, "ca-app-pub-9072765546752621/8286224024");
+        MobileAds.initialize(this, "ca-app-pub-9072765546752621~8005940852");
         ctx = getApplicationContext();
         myApplication = this;
     }

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,8 +20,11 @@ import com.paulfy.model.NewsModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -83,13 +88,39 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
 
         txt_cat_date.setText(d.getNews_upload_time());
         txt_title.setText(d.getTitle());
+
+
+//        25 April 2018 | 9:15 am
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy ");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        long time = 0;
+        try {
+            time = sdf.parse(d.getNews_upload_time().replace("| ", "")).getTime();
+
+
+            long now = System.currentTimeMillis();
+
+            CharSequence ago =
+                    DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS);
+            txt_cat_date.setText(ago.toString());
+            Log.d("my time to show", ago.toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_bookmark:
+                RequestParams p = new RequestParams();
+                p.put("news_id", d.getId());
+                p.put("user_id", MyApp.getApplication().readUser().getId());
 
+                postCall(this, AppConstants.BASE_URL + "bookmarkNews", p, "Saving...", 5);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -105,17 +136,19 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
         List<String> containedUrls = new ArrayList<String>();
         String urlRegex = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
         Pattern pattern = Pattern.compile(urlRegex, Pattern.CASE_INSENSITIVE);
-        Matcher urlMatcher = pattern.matcher(text);
+       try{
+           Matcher urlMatcher = pattern.matcher(text);
 
-        while (urlMatcher.find()) {
-            String url = text.substring(urlMatcher.start(0),
-                    urlMatcher.end(0));
-            if (MyApp.isImage(url)) {
-                d.setDescription(d.getDescription().replace(url, ""));
-                containedUrls.add(url);
-            }
+           while (urlMatcher.find()) {
+               String url = text.substring(urlMatcher.start(0),
+                       urlMatcher.end(0));
+               if (MyApp.isImage(url)) {
+                   d.setDescription(d.getDescription().replace(url, ""));
+                   containedUrls.add(url);
+               }
 
-        }
+           }
+       }catch (Exception e){}
 
         return containedUrls;
     }
@@ -132,8 +165,10 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
 
     @Override
     public void onJsonObjectResponseReceived(JSONObject o, int callNumber) {
-        if (callNumber == 1) {
-
+        if (callNumber == 5 && o.optInt("code") == 200) {
+            MyApp.showMassage(this, "Saved successfully");
+        } else {
+            MyApp.showMassage(this, o.optString("message"));
         }
     }
 

@@ -174,6 +174,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/pin"
                 android:drawablePadding="10dp"
+                android:fontFamily="@font/bentonsans_light"
                 android:drawableRight="@drawable/dropdown"
                 android:gravity="center_vertical"
                 android:text="Best Comments"
@@ -204,7 +205,8 @@
             <EditText
                 android:id="@+id/edt_comment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
+                android:gravity="start"
                 android:layout_gravity="center_vertical"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="20dp"
@@ -226,6 +228,7 @@
                 android:id="@+id/btn_postComment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/bentonsans_light"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/ic_send"
                 android:padding="8dp" />

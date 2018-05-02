@@ -27,10 +27,12 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.paulfy.adpter.ViewPagerAdapter;
 import com.paulfy.application.MyApp;
+import com.paulfy.fragments.HiddenNewsFragment;
 import com.paulfy.fragments.HomeFragment;
 import com.paulfy.fragments.HotNewsFragment;
 import com.paulfy.fragments.PopularTabFragment;
 import com.paulfy.fragments.ProfileFragment;
+import com.paulfy.fragments.SavedNewsFragment;
 import com.paulfy.model.RssModel;
 
 import org.json.JSONArray;
@@ -75,14 +77,14 @@ public class HomeActivity extends CustomActivity
 
 
         setupUiElements();
-        Fragment homefragment=new HomeFragment();
+        Fragment homefragment = new HomeFragment();
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, homefragment)
                 .commit();
 
-        Bundle bundle=new Bundle();
-        bundle.putString("selectedSearchItem","News");
+        Bundle bundle = new Bundle();
+        bundle.putString("selectedSearchItem", "News");
         homefragment.setArguments(bundle);
 
 //        new FetchFeedTask().execute((Void) null);
@@ -129,14 +131,14 @@ public class HomeActivity extends CustomActivity
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
-                Log.d("interestitial_check","Loaded");
+                Log.d("interestitial_check", "Loaded");
                 // Code to be executed when an ad finishes loading.
             }
 
             @Override
             public void onAdFailedToLoad(int errorCode) {
                 // Code to be executed when an ad request fails.
-                Log.d("interestitial_check","onAdFailedToLoad "+errorCode);
+                Log.d("interestitial_check", "onAdFailedToLoad " + errorCode);
             }
 
             @Override
@@ -159,7 +161,6 @@ public class HomeActivity extends CustomActivity
     }
 
 
-
     private void setupUiElements() {
         btn_chat = findViewById(R.id.btn_chat);
         btn_home = findViewById(R.id.btn_home);
@@ -174,6 +175,38 @@ public class HomeActivity extends CustomActivity
         setTouchNClick(R.id.btn_profile);
     }
 
+    public void navigateSaved() {
+        Fragment home = new SavedNewsFragment();
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, home).commit();
+        btn_chat.setImageResource(R.drawable.chat_gray);
+        btn_profile.setImageResource(R.drawable.profile_active);
+        btn_new.setImageResource(R.drawable.new_inactive);
+        btn_home.setImageResource(R.drawable.home_inactive);
+        btn_hot.setImageResource(R.drawable.hot_inactive);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("selectedSearchItem", "Saved News");
+        home.setArguments(bundle);
+    }
+
+    public void navigateHidden() {
+        Fragment home = new HiddenNewsFragment();
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, home).commit();
+        btn_chat.setImageResource(R.drawable.chat_gray);
+        btn_profile.setImageResource(R.drawable.profile_active);
+        btn_new.setImageResource(R.drawable.new_inactive);
+        btn_home.setImageResource(R.drawable.home_inactive);
+        btn_hot.setImageResource(R.drawable.hot_inactive);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("selectedSearchItem", "Saved News");
+        home.setArguments(bundle);
+    }
+
     @Override
     public void onClick(View v) {
         super.onClick(v);
@@ -185,7 +218,7 @@ public class HomeActivity extends CustomActivity
             btn_home.setImageResource(R.drawable.home_inactive);
             btn_hot.setImageResource(R.drawable.hot_inactive);
         } else if (v == btn_home) {
-            Fragment homefragment=new HomeFragment();
+            Fragment homefragment = new HomeFragment();
 
             fragmentManager.beginTransaction()
                     .replace(R.id.container, homefragment)
@@ -196,8 +229,8 @@ public class HomeActivity extends CustomActivity
             btn_home.setImageResource(R.drawable.home_active);
             btn_hot.setImageResource(R.drawable.hot_inactive);
 
-            Bundle bundle=new Bundle();
-            bundle.putString("selectedSearchItem","News");
+            Bundle bundle = new Bundle();
+            bundle.putString("selectedSearchItem", "News");
             homefragment.setArguments(bundle);
 
         } else if (v == btn_hot) {
@@ -347,35 +380,35 @@ public class HomeActivity extends CustomActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_business) {
-            Fragment homefragment=new HomeFragment();
+            Fragment homefragment = new HomeFragment();
 
             fragmentManager.beginTransaction()
                     .replace(R.id.container, homefragment)
                     .commit();
-            Bundle bundle=new Bundle();
+            Bundle bundle = new Bundle();
             bundle.putString("selectedSearchItem", "Business");
             homefragment.setArguments(bundle);
         } else if (id == R.id.nav_finance) {
 
         } else if (id == R.id.nav_sports) {
 
-            Fragment homefragment=new HomeFragment();
+            Fragment homefragment = new HomeFragment();
 
             fragmentManager.beginTransaction()
                     .replace(R.id.container, homefragment)
                     .commit();
-            Bundle bundle=new Bundle();
+            Bundle bundle = new Bundle();
             bundle.putString("selectedSearchItem", "Sports");
             homefragment.setArguments(bundle);
 
         } else if (id == R.id.nav_entertainment) {
 
-            Fragment homefragment=new HomeFragment();
+            Fragment homefragment = new HomeFragment();
 
             fragmentManager.beginTransaction()
                     .replace(R.id.container, homefragment)
                     .commit();
-            Bundle bundle=new Bundle();
+            Bundle bundle = new Bundle();
             bundle.putString("selectedSearchItem", "Entertainment");
             homefragment.setArguments(bundle);
 
@@ -404,7 +437,7 @@ public class HomeActivity extends CustomActivity
             JSONObject channel = o.getJSONObject("channel");
             JSONArray arr = channel.getJSONArray("item");
             List<RssModel> dataList = new ArrayList<>();
-            for (int i = 0; i <arr.length() ; i++) {
+            for (int i = 0; i < arr.length(); i++) {
                 JSONObject d = arr.getJSONObject(i);
                 RssModel r = new RssModel();
                 r.setCategoryTags("News");

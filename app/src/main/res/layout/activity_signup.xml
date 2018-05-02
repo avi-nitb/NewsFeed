@@ -23,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:fontFamily="@font/bentonsans_light"
             android:text="Create an Account"
             android:textColor="@color/black" />
 
@@ -78,6 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:fontFamily="@font/bentonsans_light"
             android:background="?attr/selectableItemBackground"
             android:padding="10dp"
             android:text="Log In Instead"

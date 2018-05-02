@@ -2,10 +2,7 @@ package com.paulfy.adpter;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -25,9 +22,10 @@ import com.paulfy.CommentsActivity;
 import com.paulfy.R;
 import com.paulfy.application.AppConstants;
 import com.paulfy.application.MyApp;
+import com.paulfy.fragments.HiddenNewsFragment;
 import com.paulfy.fragments.HomeTabFragment;
 import com.paulfy.fragments.PopularTabFragment;
-import com.paulfy.model.CategoryModel;
+import com.paulfy.fragments.SavedNewsFragment;
 import com.paulfy.model.NewsModel;
 import com.paulfy.utils.RoundedCornersTransformation;
 import com.squareup.picasso.Picasso;
@@ -45,7 +43,7 @@ import java.util.regex.Pattern;
 
 import static com.paulfy.application.MyApp.isImage;
 
-public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.MyViewHolder> {
+public class SavedNewsAdapter extends RecyclerView.Adapter<SavedNewsAdapter.MyViewHolder> {
     Fragment context;
     List<NewsModel.Data> data;
     List<NewsModel.Data.Comments> commentsList;
@@ -53,7 +51,7 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
     int imgWidth;
     int imgHeight;
 
-    public PopularTab_Adapter(Fragment context, List<NewsModel.Data> data) {
+    public SavedNewsAdapter(Fragment context, List<NewsModel.Data> data) {
         this.context = context;
         this.data = data;
 
@@ -63,19 +61,19 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
     }
 
     @Override
-    public PopularTab_Adapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SavedNewsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context.getActivity()).inflate(R.layout.item_log, parent, false);
         return new MyViewHolder(view);
     }
 
 
     @Override
-    public void onBindViewHolder(PopularTab_Adapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(SavedNewsAdapter.MyViewHolder holder, int position) {
 
-        NewsModel.Data current = data.get(position);
+        NewsModel.Data current = data.get(position).getNews();
         holder.txt_date.setText(current.getNews_upload_time());
         holder.txt_likes.setText(String.valueOf(current.getLikeCount()));
-        holder.txt_comments.setText("" + current.getComment().size());
+//        holder.txt_comments.setText("" + current.getComment().size());
         holder.txt_description.setText(current.getTitle());
 
         String url = extractUrl(current.getDescription());
@@ -150,10 +148,10 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
         public void onClick(View v) {
             if (v == itemView) {
                 try {
-                    ((PopularTabFragment) context).clickNews(data.get(getLayoutPosition()));
+                    ((SavedNewsFragment) context).clickNews(data.get(getLayoutPosition()).getNews());
                 } catch (Exception e) {
 
-                    ((HomeTabFragment) context).clickNews(data.get(getLayoutPosition()));
+                    ((SavedNewsFragment) context).clickNews(data.get(getLayoutPosition()).getNews());
                 }
                 //MyApp.popMessage("Details", data.get(getLayoutPosition()).getDescription(), context);
             } else if (v == txt_likes) {
@@ -164,26 +162,26 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
                         return;
                     }
 //                    MyApp.showMassage(context.getActivity(),"Already liked");
-                    data.get(getLayoutPosition()).setLikeCount(data.get(getLayoutPosition()).getLikeCount() - 1);
-                    data.get(getLayoutPosition()).setLike(false);
+                    data.get(getLayoutPosition()).setLikeCount(data.get(getLayoutPosition()).getNews().getLikeCount() - 1);
+                    data.get(getLayoutPosition()).getNews().setLike(false);
                     notifyDataSetChanged();
                     try {
-                        ((PopularTabFragment) context).likedPosition = getLayoutPosition();
-                        ((PopularTabFragment) context).isLikeStatus = false;
+                        ((HiddenNewsFragment) context).likedPosition = getLayoutPosition();
+                        ((HiddenNewsFragment) context).isLikeStatus = false;
                         RequestParams p = new RequestParams();
                         p.put("news_id", data.get(getLayoutPosition()).getId());
                         p.put("user_id", MyApp.getApplication().readUser().getId());
                         p.put("like", 0);
-                        ((PopularTabFragment) context).postCall(context.getActivity(),
+                        ((HiddenNewsFragment) context).postCall(context.getActivity(),
                                 AppConstants.BASE_URL + "likeNews", p, "", 4);
                     } catch (Exception e) {
-                        ((HomeTabFragment) context).likedPosition = getLayoutPosition();
-                        ((HomeTabFragment) context).isLikeStatus = false;
+                        ((SavedNewsFragment) context).likedPosition = getLayoutPosition();
+                        ((SavedNewsFragment) context).isLikeStatus = false;
                         RequestParams p = new RequestParams();
-                        p.put("news_id", data.get(getLayoutPosition()).getId());
+                        p.put("news_id", data.get(getLayoutPosition()).getNews().getId());
                         p.put("user_id", MyApp.getApplication().readUser().getId());
                         p.put("like", 0);
-                        ((HomeTabFragment) context).postCall(context.getActivity(), AppConstants.BASE_URL +
+                        ((SavedNewsFragment) context).postCall(context.getActivity(), AppConstants.BASE_URL +
                                 "likeNews", p, "", 4);
                     }
                 } else {
@@ -193,25 +191,25 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
                         return;
                     }
 
-                    data.get(getLayoutPosition()).setLikeCount(data.get(getLayoutPosition()).getLikeCount() + 1);
-                    data.get(getLayoutPosition()).setLike(true);
+                    data.get(getLayoutPosition()).getNews().setLikeCount(data.get(getLayoutPosition()).getNews().getLikeCount() + 1);
+                    data.get(getLayoutPosition()).getNews().setLike(true);
                     notifyDataSetChanged();
                     try {
-                        ((HomeTabFragment) context).likedPosition = getLayoutPosition();
-                        ((HomeTabFragment) context).isLikeStatus = true;
+                        ((HiddenNewsFragment) context).likedPosition = getLayoutPosition();
+                        ((HiddenNewsFragment) context).isLikeStatus = true;
                         RequestParams p = new RequestParams();
-                        p.put("news_id", data.get(getLayoutPosition()).getId());
+                        p.put("news_id", data.get(getLayoutPosition()).getNews().getId());
                         p.put("user_id", MyApp.getApplication().readUser().getId());
                         p.put("like", 1);
-                        ((HomeTabFragment) context).postCall(context.getActivity(), AppConstants.BASE_URL + "likeNews", p, "Loading...", 4);
+                        ((HiddenNewsFragment) context).postCall(context.getActivity(), AppConstants.BASE_URL + "likeNews", p, "Loading...", 4);
                     } catch (Exception w) {
-                        ((PopularTabFragment) context).likedPosition = getLayoutPosition();
-                        ((PopularTabFragment) context).isLikeStatus = true;
+                        ((SavedNewsFragment) context).likedPosition = getLayoutPosition();
+                        ((SavedNewsFragment) context).isLikeStatus = true;
                         RequestParams p = new RequestParams();
-                        p.put("news_id", data.get(getLayoutPosition()).getId());
+                        p.put("news_id", data.get(getLayoutPosition()).getNews().getId());
                         p.put("user_id", MyApp.getApplication().readUser().getId());
                         p.put("like", 1);
-                        ((PopularTabFragment) context).postCall(context.getActivity(), AppConstants.BASE_URL + "likeNews", p, "Loading...", 4);
+                        ((SavedNewsFragment) context).postCall(context.getActivity(), AppConstants.BASE_URL + "likeNews", p, "Loading...", 4);
                     }
 
                     notifyDataSetChanged();
@@ -237,24 +235,24 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
                 }
                 //Inflating the Popup using xml file
                 popup.getMenuInflater()
-                        .inflate(R.menu.news_overflow, popup.getMenu());
+                        .inflate(R.menu.hidden_overflow, popup.getMenu());
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
 
                         if (item.getItemId() == R.id.nav_save) {
                             try {
-                                ((HomeTabFragment) context).callSaveApi(data.get(getLayoutPosition()).getId());
+                                ((HiddenNewsFragment) context).callSaveApi(data.get(getLayoutPosition()).getNews().getId());
                             } catch (Exception e) {
-                                ((PopularTabFragment) context).callSaveApi(data.get(getLayoutPosition()).getId());
+                                ((SavedNewsFragment) context).callSaveApi(data.get(getLayoutPosition()).getNews().getId());
                             }
                         } else if (item.getItemId() == R.id.nav_hide) {
                             try {
-                                ((HomeTabFragment) context).callHideApi(data.get(getLayoutPosition()).getId());
+                                ((HiddenNewsFragment) context).callHideApi(data.get(getLayoutPosition()).getId());
                                 data.remove(getLayoutPosition());
                                 notifyDataSetChanged();
                             } catch (Exception e) {
-                                ((PopularTabFragment) context).callHideApi(data.get(getLayoutPosition()).getId());
+                                ((SavedNewsFragment) context).callHideApi(data.get(getLayoutPosition()).getId());
                                 data.remove(getLayoutPosition());
                                 notifyDataSetChanged();
                             }
@@ -273,9 +271,9 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
                     return;
                 }
                 commentsList = new ArrayList<>();
-                commentsList.addAll(data.get(getLayoutPosition()).getComment());
+                commentsList.addAll(data.get(getLayoutPosition()).getNews().getComment());
                 Intent i = new Intent(context.getActivity(), CommentsActivity.class);
-                i.putExtra("news_id", data.get(getLayoutPosition()).getId());
+                i.putExtra("news_id", data.get(getLayoutPosition()).getNews().getId());
                 i.putExtra("comments", (Serializable) commentsList);
                 context.startActivity(i);
             }

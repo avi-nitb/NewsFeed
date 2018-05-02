@@ -5,64 +5,66 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_screen">
 
-    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/gray_bg"
-        android:elevation="5dp"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:theme="@style/ToolbarStyle">
+    <!--<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/toolbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="?attr/actionBarSize"-->
+        <!--android:background="@color/gray_bg"-->
+        <!--android:elevation="5dp"-->
+        <!--app:popupTheme="@style/AppTheme.PopupOverlay"-->
+        <!--app:theme="@style/ToolbarStyle">-->
 
-        <TextView
-            android:id="@+id/txt_name"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:paddingLeft="10dp"
-            android:text="Paulfy"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+        <!--<TextView-->
+            <!--android:id="@+id/txt_name"-->
+            <!--android:layout_width="150dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="left"-->
+            <!--android:fontFamily="@font/bentonsans_light"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:text="Paulfy"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textSize="20sp"-->
+            <!--android:textStyle="bold" />-->
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right">
+        <!--<RelativeLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="right">-->
 
-            <TextView
-                android:id="@+id/btn_logout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/add_img"
-                android:text="Log Out"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+            <!--<TextView-->
+                <!--android:id="@+id/btn_logout"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:fontFamily="@font/bentonsans_light"-->
+                <!--android:layout_toRightOf="@+id/add_img"-->
+                <!--android:text="Log Out"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:textColor="@color/black"-->
+                <!--android:textSize="16sp" />-->
+
+            <!--&lt;!&ndash;<ImageButton&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/more"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginRight="10dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_toRightOf="@+id/add_img"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:background="@null"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:padding="5dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:src="@drawable/ic_more" />&ndash;&gt;-->
 
             <!--<ImageButton-->
-                <!--android:id="@+id/more"-->
+                <!--android:id="@+id/add_img"-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--android:layout_marginRight="10dp"-->
-                <!--android:layout_toRightOf="@+id/add_img"-->
                 <!--android:background="@null"-->
                 <!--android:padding="5dp"-->
-                <!--android:src="@drawable/ic_more" />-->
-
-            <ImageButton
-                android:id="@+id/add_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:background="@null"
-                android:padding="5dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_person_add" />
-        </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
+                <!--android:layout_centerVertical="true"-->
+                <!--android:src="@drawable/ic_person_add" />-->
+        <!--</RelativeLayout>-->
+    <!--</android.support.v7.widget.Toolbar>-->
 
     <RelativeLayout
         android:id="@+id/rl_profile"
@@ -84,6 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
+                android:fontFamily="@font/bentonsans_light"
                 android:text="17"
                 android:textColor="@color/black"
                 android:textSize="22sp" />
@@ -92,10 +95,11 @@
                 android:id="@+id/txt_follower"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/bentonsans_light"
                 android:layout_below="@+id/txt_follow_count"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
-                android:text="Followers"
+                android:text=""
                 android:textColor="@color/gray"
                 android:textSize="18sp" />
 
@@ -105,6 +109,7 @@
                 android:layout_below="@+id/txt_follower"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
+                android:fontFamily="@font/bentonsans_light"
                 android:background="@drawable/rounded_gray"
                 android:paddingBottom="8dp"
                 android:paddingLeft="25dp"

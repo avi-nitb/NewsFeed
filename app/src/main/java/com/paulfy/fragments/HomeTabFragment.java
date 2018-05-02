@@ -193,7 +193,7 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
 //            postCall(getContext(), AppConstants.BASE_URL + "getAllCategories", p, "", 1);
             txt_choose_cat.setVisibility(View.GONE);
             rv_home.setVisibility(View.VISIBLE);
-            text_cat_head.setVisibility(View.VISIBLE);
+//            text_cat_head.setVisibility(View.VISIBLE);
             rv_news.setVisibility(View.GONE);
             btn_load.setVisibility(View.VISIBLE);
         }
@@ -229,6 +229,8 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
 //            popularTab_adapter.notifyDataSetChanged();
         } else if (callNumber == 5 && o.optInt("code") == 200) {
             MyApp.showMassage(getActivity(), "Saved successfully");
+        } else if (callNumber == 6 && o.optInt("code") == 200) {
+            MyApp.showMassage(getActivity(), "Hide successfully");
         } else {
             MyApp.showMassage(getActivity(), o.optString("message"));
         }
@@ -317,5 +319,13 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
             }
         }
         return filteredModelList;
+    }
+
+    public void callHideApi(int id) {
+        RequestParams p = new RequestParams();
+        p.put("news_id", id);
+        p.put("user_id", MyApp.getApplication().readUser().getId());
+
+        postCall(getActivity(), AppConstants.BASE_URL + "hideunhideNews", p, "Saving...", 6);
     }
 }

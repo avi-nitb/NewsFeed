@@ -23,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:fontFamily="@font/bentonsans_light"
             android:text="Log In to Paulfy"
             android:textColor="@color/black" />
 
@@ -67,6 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
+                android:fontFamily="@font/bentonsans_light"
                 android:background="?attr/selectableItemBackground"
                 android:padding="10dp"
                 android:text="Sign Up"
@@ -79,6 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:fontFamily="@font/bentonsans_light"
                 android:layout_margin="20dp"
                 android:background="?attr/selectableItemBackground"
                 android:padding="10dp"

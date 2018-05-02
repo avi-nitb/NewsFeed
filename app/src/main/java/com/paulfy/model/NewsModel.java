@@ -60,6 +60,15 @@ public class NewsModel implements Serializable
         private String news_upload_time;
         private String created_at;
         private String updated_at;
+        private Data news;
+
+        public Data getNews() {
+            return news;
+        }
+
+        public void setNews(Data news) {
+            this.news = news;
+        }
 
         private int likeCount;
 

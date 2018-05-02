@@ -2,13 +2,19 @@ package com.paulfy.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,37 +32,41 @@ public class ProfileFragment extends CustomFragment {
 
     private TextView tvUserName;
     private ImageView avatar;
-    private TextView btn_logout;
-    private TextView txt_name;
+    private TextView txt_follow_count;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPagerAdapter viewPagerAdapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setRetainInstance(true);
+
+    }
 
     public ProfileFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        ((HomeActivity) getActivity()).toolbar.setVisibility(View.GONE);
-        btn_logout = view.findViewById(R.id.btn_logout);
-        txt_name = view.findViewById(R.id.txt_name);
-        setTouchNClick(btn_logout);
+//        ((HomeActivity) getActivity()).toolbar.setVisibility(View.GONE);
+        txt_follow_count = view.findViewById(R.id.txt_follow_count);
 
         User u = MyApp.getApplication().readUser();
-        txt_name.setText(u.getUser_name());
+        txt_follow_count.setText(u.getUser_name());
         if (u.getId() == 0) {
-            txt_name.setVisibility(View.VISIBLE);
-            txt_name.setText("Guest User");
-            btn_logout.setVisibility(View.GONE);
+            txt_follow_count.setVisibility(View.VISIBLE);
+            txt_follow_count.setText("Guest User");
+//            btn_logout.setVisibility(View.GONE);
         }
 
 
@@ -73,11 +83,7 @@ public class ProfileFragment extends CustomFragment {
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        if (v == btn_logout) {
-            MyApp.setStatus(AppConstants.IS_LOGIN, false);
-            startActivity(new Intent(getActivity(), OptionLoginSignupActivity.class));
-            getActivity().finishAffinity();
-        }
+
     }
 
     @Override
@@ -85,6 +91,9 @@ public class ProfileFragment extends CustomFragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void navigateSaved(){
+        ((HomeActivity) getActivity()).navigateSaved();
+    }
 
     @Override
     public void onDestroyView() {
@@ -94,6 +103,10 @@ public class ProfileFragment extends CustomFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    public void navigateHidden() {
+        ((HomeActivity) getActivity()).navigateHidden();
     }
 
     public class ViewPagerAdapter extends FragmentStatePagerAdapter {
@@ -109,10 +122,12 @@ public class ProfileFragment extends CustomFragment {
             if (position == 0) {
                 return new CommentsFragment();
             } else if (position == 1) {
-                return new AboutFragment();
+                return new AboutFragment(ProfileFragment.this);
             }
             return fragment;
         }
+
+
 
         @Override
         public int getCount() {
@@ -131,4 +146,27 @@ public class ProfileFragment extends CustomFragment {
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.menu_profile, menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.action_logout:
+                MyApp.setStatus(AppConstants.IS_LOGIN, false);
+                startActivity(new Intent(getActivity(), OptionLoginSignupActivity.class));
+                getActivity().finishAffinity();
+                return true;
+            case R.id.action_add:
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+
+    }
 }

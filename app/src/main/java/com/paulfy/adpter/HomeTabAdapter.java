@@ -1,6 +1,8 @@
 package com.paulfy.adpter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v7.widget.DrawableUtils;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +25,7 @@ public class HomeTabAdapter extends RecyclerView.Adapter<HomeTabAdapter.MyViewHo
     private List<Integer> categories = new ArrayList();
     private TextView btn_load;
     private HomeTabFragment fragment;
+    private int[] icons = {R.drawable.news, R.drawable.technology, R.drawable.business, R.drawable.sports, R.drawable.entertainment};
 
     public HomeTabAdapter(Context context, List<CategoryModel.Data> dataList, TextView btn_load, HomeTabFragment fragment) {
         this.context = context;
@@ -42,6 +45,7 @@ public class HomeTabAdapter extends RecyclerView.Adapter<HomeTabAdapter.MyViewHo
     public void onBindViewHolder(final HomeTabAdapter.MyViewHolder holder, int position) {
         final CategoryModel.Data current = dataList.get(position);
         holder.cat_name.setText(current.getName());
+        holder.cat_name.setCompoundDrawablesWithIntrinsicBounds(icons[position],0,0,0);
 
         holder.cat_name.setOnClickListener(new View.OnClickListener() {
             @Override
