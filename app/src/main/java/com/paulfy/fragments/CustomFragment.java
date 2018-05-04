@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -90,7 +91,11 @@ public class CustomFragment extends Fragment implements View.OnClickListener {
 
     public void postCall(Context c, String url, RequestParams p, String loadingMsg, final int callNumber) {
         if (!TextUtils.isEmpty(loadingMsg))
-            showLoadingDialog("");
+            if (url.contains("likeNews")){
+
+            } else {
+//                showLoadingDialog("");
+            }
         Log.d("URl:", url);
         Log.d("Request:", p.toString());
         AsyncHttpClient client = new AsyncHttpClient();
@@ -100,7 +105,7 @@ public class CustomFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onSuccess(int statusCode, Header[] headers, final JSONObject response) {
                 MyApp.spinnerStop();
-                dismissDialog();
+//                dismissDialog();
                 Log.d("Response:", response.toString());
                 try {
                     responseCallback.onJsonObjectResponseReceived(response, callNumber);
@@ -269,6 +274,7 @@ public class CustomFragment extends Fragment implements View.OnClickListener {
 
         TextView txt_load_message = dialog.findViewById(R.id.txt_load_message);
         txt_load_message.setText(message);
+
 
         dialog.show();
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();

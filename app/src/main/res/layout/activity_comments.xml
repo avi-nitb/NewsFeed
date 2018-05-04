@@ -197,16 +197,18 @@
         android:background="@drawable/footer_bg"
         android:weightSum="10">
 
-        <LinearLayout
+       <!-- <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="9">
+            android:layout_weight="9">-->
 
             <EditText
                 android:id="@+id/edt_comment"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
                 android:gravity="start"
+                android:imeOptions="actionSend"
+                android:inputType="text"
                 android:layout_gravity="center_vertical"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="20dp"
@@ -216,9 +218,9 @@
                 android:hint="Add a comment"
                 android:padding="8dp"
                 android:textSize="12sp" />
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
-        <LinearLayout
+       <!-- <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -232,6 +234,6 @@
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/ic_send"
                 android:padding="8dp" />
-        </LinearLayout>
+        </LinearLayout>-->
     </LinearLayout>
 </RelativeLayout>

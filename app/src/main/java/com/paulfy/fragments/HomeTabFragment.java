@@ -1,9 +1,12 @@
 package com.paulfy.fragments;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -13,6 +16,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -37,8 +42,11 @@ import java.util.List;
 public class HomeTabFragment extends CustomFragment implements CustomFragment.ResponseCallback, SearchView.OnQueryTextListener {
     private RecyclerView rv_home, rv_news;
     private TextView btn_load;
+    ProgressBar progressBar;
     private CategoryModel categoryModel;
+    private SwipeRefreshLayout mswipeToRefresh;
     private NewsModel newsModel = new NewsModel();
+    RequestParams p = new RequestParams();
     private PopularTab_Adapter popularTab_adapter;
     private List<CategoryModel.Data> dataList;
     private List<NewsModel.Data> newsdata;
@@ -70,7 +78,9 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
         rv_home = myView.findViewById(R.id.rv_home);
         rv_news = myView.findViewById(R.id.rv_news);
         btn_load = myView.findViewById(R.id.btn_load);
+        progressBar = myView.findViewById(R.id.loader);
         text_cat_head = myView.findViewById(R.id.text_cat_head);
+        mswipeToRefresh = myView.findViewById(R.id.mswipeToRefresh);
         dataList = new ArrayList<>();
         newsdata = new ArrayList<>();
         categoryModel = new CategoryModel();
@@ -92,7 +102,7 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
 
         if (MyApp.getApplication().readRequestMap().keySet().size() > 0) {
 
-            RequestParams p = new RequestParams();
+
 
             HashMap<String, Integer> map = MyApp.getApplication().readRequestMap();
             for (String s : map.keySet()) {
@@ -104,8 +114,15 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
             rv_news.setVisibility(View.VISIBLE);
             btn_load.setVisibility(View.GONE);
             p.put("user_id", MyApp.getApplication().readUser().getId());
-            postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "Please Wait", 2);
 
+            if (SingleInstance.getInstance().getNews().size()>0) {
+                popularTab_adapter = new PopularTab_Adapter(HomeTabFragment.this,SingleInstance.getInstance().getNews());
+                rv_news.setAdapter(popularTab_adapter);
+                postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "", 2);
+            } else {
+                startProgress();
+                postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "Loading Please Wait...", 2);
+            }
 
         }
 
@@ -116,6 +133,24 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
         rv_home.setAdapter(homeTabAdapter);
 
         rv_news.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        mswipeToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                new Handler().postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        startProgress();
+                        postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "Loading Please Wait...", 2);
+                        mswipeToRefresh.setRefreshing(false);
+                    }
+                },3000);
+            }
+        });
 
 
         return myView;
@@ -181,7 +216,14 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
 
         p.put("user_id", MyApp.getApplication().readUser().getId());
 
-        postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "Please Wait", 2);
+        if (SingleInstance.getInstance().getNews().size()>0) {
+            popularTab_adapter = new PopularTab_Adapter(HomeTabFragment.this,SingleInstance.getInstance().getNews());
+            rv_news.setAdapter(popularTab_adapter);
+            postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "", 2);
+        } else {
+            startProgress();
+            postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "Loading Please Wait...", 2);
+        }
     }
 
     @Override
@@ -213,13 +255,16 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
 
             newsModel = new Gson().fromJson(o.toString(), NewsModel.class);
             newsdata.addAll(newsModel.getData());
+            SingleInstance.getInstance().setNews(newsdata);
             rv_home.setVisibility(View.GONE);
             txt_choose_cat.setVisibility(View.VISIBLE);
             text_cat_head.setVisibility(View.GONE);
             rv_news.setVisibility(View.VISIBLE);
             btn_load.setVisibility(View.GONE);
-            popularTab_adapter = new PopularTab_Adapter(HomeTabFragment.this, newsdata);
+            popularTab_adapter = new PopularTab_Adapter(HomeTabFragment.this, SingleInstance.getInstance().getNews());
             rv_news.setAdapter(popularTab_adapter);
+            progressBar.clearAnimation();
+            progressBar.setVisibility(View.GONE);
             popularTab_adapter.notifyDataSetChanged();
         } else if (callNumber == 4 && o.optInt("code") == 200) {
 //            if (isLikeStatus)
@@ -327,5 +372,14 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
         p.put("user_id", MyApp.getApplication().readUser().getId());
 
         postCall(getActivity(), AppConstants.BASE_URL + "hideunhideNews", p, "Saving...", 6);
+    }
+
+
+    public void startProgress(){
+
+        ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, 500); // see this max value coming back here, we animate towards that value
+        animation.setDuration(5000); // in milliseconds
+        animation.setInterpolator(new DecelerateInterpolator());
+        animation.start();
     }
 }

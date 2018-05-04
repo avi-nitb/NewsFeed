@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -48,13 +50,34 @@ public class CommentsActivity extends CustomActivity implements CustomActivity.R
         commentList= (List<NewsModel.Data.Comments>) extras.getSerializable("comments");
         setTouchNClick(R.id.btn_close);
         edt_comment = (EditText) findViewById(R.id.edt_comment);
-        btn_postComment = (TextView) findViewById(R.id.btn_postComment);
-        setTouchNClick(R.id.btn_postComment);
+//        btn_postComment = (TextView) findViewById(R.id.btn_postComment);
+//        setTouchNClick(R.id.btn_postComment);
         setResponseListener(this);
         rv_comments = findViewById(R.id.rv_comments);
         rv_comments.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new CommentsAdapter(getContext(), commentList);
         rv_comments.setAdapter(adapter);
+        edt_comment.setImeActionLabel("Send", KeyEvent.KEYCODE_ENTER);
+        edt_comment.setOnEditorActionListener(new TextView.OnEditorActionListener()
+        {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+            {
+                boolean handled = false;
+                if (actionId== EditorInfo.IME_ACTION_SEND){
+//                    MyApp.showMassage(getContext(), "Send Pressed...");
+                    RequestParams p = new RequestParams();
+                    p.put("news_id", news_id);
+                    p.put("user_id", MyApp.getApplication().readUser().getId());
+                    p.put("comment", edt_comment.getText().toString());
+
+                    postCall(getContext(), AppConstants.BASE_URL + "commentNews", p, "", 1);
+                    handled=true;
+                }
+                return handled;
+            }
+        });
+
     }
 
     @Override
@@ -62,14 +85,15 @@ public class CommentsActivity extends CustomActivity implements CustomActivity.R
         super.onClick(v);
         if (v.getId() == R.id.btn_close) {
             finish();
-        } else if (v==btn_postComment){
+        }
+        /*else if (v==btn_postComment){
             RequestParams p = new RequestParams();
             p.put("news_id", news_id);
             p.put("user_id", MyApp.getApplication().readUser().getId());
             p.put("comment", edt_comment.getText().toString());
 
             postCall(getContext(), AppConstants.BASE_URL + "commentNews", p, "Posting", 1);
-        }
+        }*/
     }
 
     private Context getContext() {
