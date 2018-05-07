@@ -1,6 +1,8 @@
 package com.paulfy;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -39,6 +41,7 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
     private List<String> imgUrls = new ArrayList<>();
     private BannerSlider bannerSlider;
     private NewsModel.Data d;
+    private TextView txt_visit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +60,17 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
         d = SingleInstance.getInstance().getDataToLoad();
 
         imgUrls.addAll(extractUrls(d.getDescription()));
+        txt_visit = findViewById(R.id.txt_visit);
         bannerSlider = findViewById(R.id.banner_slider1);
         txt_description = findViewById(R.id.txt_description);
         String htmlSpan = Html.fromHtml(d.getDescription()).toString();
         txt_description.setText(htmlSpan);
 
+        setTouchNClick(R.id.txt_visit);
+
+        if (d.getTitle_url().isEmpty()) {
+            txt_visit.setVisibility(View.GONE);
+        }
 
         List<Banner> banners = new ArrayList<>();
 
@@ -136,19 +145,20 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
         List<String> containedUrls = new ArrayList<String>();
         String urlRegex = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
         Pattern pattern = Pattern.compile(urlRegex, Pattern.CASE_INSENSITIVE);
-       try{
-           Matcher urlMatcher = pattern.matcher(text);
+        try {
+            Matcher urlMatcher = pattern.matcher(text);
 
-           while (urlMatcher.find()) {
-               String url = text.substring(urlMatcher.start(0),
-                       urlMatcher.end(0));
-               if (MyApp.isImage(url)) {
-                   d.setDescription(d.getDescription().replace(url, ""));
-                   containedUrls.add(url);
-               }
+            while (urlMatcher.find()) {
+                String url = text.substring(urlMatcher.start(0),
+                        urlMatcher.end(0));
+                if (MyApp.isImage(url)) {
+                    d.setDescription(d.getDescription().replace(url, ""));
+                    containedUrls.add(url);
+                }
 
-           }
-       }catch (Exception e){}
+            }
+        } catch (Exception e) {
+        }
 
         return containedUrls;
     }
@@ -157,6 +167,10 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
     public void onClick(View v) {
         super.onClick(v);
 
+        if (v == txt_visit) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(d.getTitle_url()));
+            startActivity(browserIntent);
+        }
     }
 
     private Context getContext() {

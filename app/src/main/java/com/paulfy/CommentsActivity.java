@@ -104,7 +104,7 @@ public class CommentsActivity extends CustomActivity implements CustomActivity.R
     public void onJsonObjectResponseReceived(JSONObject o, int callNumber)
     {
         if (callNumber==1 && o.optInt("code")==200){
-            MyApp.showMassage(getContext(), "Comment Posted Successfully");
+//            MyApp.showMassage(getContext(), "Comment Posted Successfully");
             edt_comment.setText("");
             NewsModel.Data.Comments c= new NewsModel().new Data().new Comments();
             c.setCreated_at(o.optJSONObject("data").optString("created_at"));

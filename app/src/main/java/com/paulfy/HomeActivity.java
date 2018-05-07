@@ -47,7 +47,7 @@ import fr.arnaudguyon.xmltojsonlib.XmlToJson;
 public class HomeActivity extends CustomActivity
         implements NavigationView.OnNavigationItemSelectedListener, CustomActivity.ResponseCallback {
 
-    AdView adView;
+//    AdView adView;
     private ImageButton btn_home;
     private ImageButton btn_profile;
     private ImageButton btn_hot;

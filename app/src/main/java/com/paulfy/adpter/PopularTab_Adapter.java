@@ -2,6 +2,7 @@ package com.paulfy.adpter;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -87,7 +88,7 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
                     .load(url)
                     .resize(imgWidth, imgHeight)
                     .error(R.drawable.road_bg)
-                    .transform(new RoundedCornersTransformation(10,5))
+                    .transform(new RoundedCornersTransformation(10, 5))
                     .placeholder(R.drawable.road_bg).centerCrop()
                     .into(holder.img);
 
@@ -114,7 +115,6 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
         }
 
 
-
     }
 
     @Override
@@ -126,13 +126,14 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
         TextView txt_comments, txt_date, txt_likes, txt_description;
         ImageButton overflow;
         ImageView img;
-        RelativeLayout rl_img;
+        RelativeLayout rl_img, rl_share;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             txt_comments = itemView.findViewById(R.id.comments_counts);
             txt_likes = itemView.findViewById(R.id.likescount);
             txt_date = itemView.findViewById(R.id.txt_date);
+            rl_share = itemView.findViewById(R.id.rl_share);
             overflow = itemView.findViewById(R.id.overflow);
             txt_description = itemView.findViewById(R.id.txt_description);
             img = itemView.findViewById(R.id.img);
@@ -142,13 +143,23 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
             itemView.setOnClickListener(this);
             txt_likes.setOnClickListener(this);
             txt_comments.setOnClickListener(this);
-
+            rl_share.setOnClickListener(this);
 
         }
 
         @Override
         public void onClick(View v) {
-            if (v == itemView) {
+            if (v == rl_share) {
+
+                String shareBody = data.get(getLayoutPosition()).getTitle_url();
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Pulfy News");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                context.getActivity().startActivity(Intent.createChooser(sharingIntent,
+                        "Share with:"));
+
+            } else if (v == itemView) {
                 try {
                     ((PopularTabFragment) context).clickNews(data.get(getLayoutPosition()));
                 } catch (Exception e) {

@@ -53,6 +53,19 @@
                 android:text="sdfdf"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Visit Source"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:id="@+id/txt_visit"
+                android:layout_margin="20dp"
+                android:background="@drawable/button_rounded_blue"
+                />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
