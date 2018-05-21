@@ -20,7 +20,7 @@
             <!--android:layout_width="150dp"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:layout_gravity="left"-->
-            <!--android:fontFamily="@font/bentonsans_light"-->
+            <!--android:fontFamily="@font/app_font"-->
             <!--android:paddingLeft="10dp"-->
             <!--android:text="Paulfy"-->
             <!--android:textColor="@color/black"-->
@@ -36,7 +36,7 @@
                 <!--android:id="@+id/btn_logout"-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="wrap_content"-->
-                <!--android:fontFamily="@font/bentonsans_light"-->
+                <!--android:fontFamily="@font/app_font"-->
                 <!--android:layout_toRightOf="@+id/add_img"-->
                 <!--android:text="Log Out"-->
                 <!--android:layout_centerVertical="true"-->
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
-                android:fontFamily="@font/bentonsans_light"
+                android:fontFamily="@font/app_font"
                 android:text="17"
                 android:textColor="@color/black"
                 android:textSize="22sp" />
@@ -95,7 +95,7 @@
                 android:id="@+id/txt_follower"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/bentonsans_light"
+                android:fontFamily="@font/app_font"
                 android:layout_below="@+id/txt_follow_count"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
@@ -109,7 +109,7 @@
                 android:layout_below="@+id/txt_follower"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
-                android:fontFamily="@font/bentonsans_light"
+                android:fontFamily="@font/app_font"
                 android:background="@drawable/rounded_gray"
                 android:paddingBottom="8dp"
                 android:paddingLeft="25dp"

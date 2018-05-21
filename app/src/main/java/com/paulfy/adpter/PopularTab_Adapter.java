@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ import com.paulfy.fragments.PopularTabFragment;
 import com.paulfy.model.CategoryModel;
 import com.paulfy.model.NewsModel;
 import com.paulfy.utils.RoundedCornersTransformation;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -71,7 +73,7 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
 
 
     @Override
-    public void onBindViewHolder(PopularTab_Adapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(PopularTab_Adapter.MyViewHolder holder, final int position) {
 
         NewsModel.Data current = data.get(position);
         holder.txt_date.setText(current.getNews_upload_time());
@@ -87,26 +89,40 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
             Picasso.with(context.getActivity())
                     .load(url)
                     .resize(imgWidth, imgHeight)
-                    .error(R.drawable.road_bg)
+//                    .error(R.drawable.road_bg)
                     .transform(new RoundedCornersTransformation(10, 5))
-                    .placeholder(R.drawable.road_bg).centerCrop()
-                    .into(holder.img);
+                    .centerCrop()
+                    .into(holder.img, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            data.get(position).setImageLoaded(true);
+                           try{
+                               notifyDataSetChanged();
+                           }catch (Exception e){}
+                        }
+
+                        @Override
+                        public void onError() {
+                            data.get(position).setImageLoaded(false);
+                            try{
+                                notifyDataSetChanged();
+                            }catch (Exception e){}
+                        }
+                    });
 
         }
 
 //        25 April 2018 | 9:15 am
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy ");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy h:m a");
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         long time = 0;
         try {
             time = sdf.parse(current.getNews_upload_time().replace("| ", "")).getTime();
-
-
             long now = System.currentTimeMillis();
-
             CharSequence ago =
                     DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS);
-            holder.txt_date.setText(ago.toString());
+            holder.txt_date.setText(ago.toString().replace("minutes","m")
+            .replace("ago","").replace("hours","h").replace("hour","h"));
             Log.d("my time to show", ago.toString());
         } catch (ParseException e) {
             e.printStackTrace();
@@ -114,6 +130,11 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
             e.printStackTrace();
         }
 
+        if (data.get(position).isImageLoaded()) {
+            holder.progressBar.setVisibility(View.GONE);
+        } else {
+            holder.progressBar.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -127,12 +148,14 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
         ImageButton overflow;
         ImageView img;
         RelativeLayout rl_img, rl_share;
+        ProgressBar progressBar;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             txt_comments = itemView.findViewById(R.id.comments_counts);
             txt_likes = itemView.findViewById(R.id.likescount);
             txt_date = itemView.findViewById(R.id.txt_date);
+            progressBar = itemView.findViewById(R.id.progressbar);
             rl_share = itemView.findViewById(R.id.rl_share);
             overflow = itemView.findViewById(R.id.overflow);
             txt_description = itemView.findViewById(R.id.txt_description);

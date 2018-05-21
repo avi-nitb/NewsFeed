@@ -15,8 +15,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha=".5"
-            android:fontFamily="@font/bentonsans_light"
             android:drawablePadding="10dp"
+            android:fontFamily="@font/app_font"
             android:gravity="center"
             android:paddingBottom="5dp"
             android:paddingLeft="10dp"
@@ -26,8 +26,10 @@
 
         <ImageButton
             android:id="@+id/overflow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:alpha=".5"
@@ -54,43 +56,51 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:layout_toLeftOf="@id/rl_img"
+            android:fontFamily="@font/app_font"
             android:maxLines="4"
-            android:fontFamily="@font/bentonsans_light"
             android:minLines="4"
+            android:lineSpacingExtra="2dp"
             android:text="Text"
             android:textColor="@color/black"
-            android:textSize="16sp" />
-
+            android:textSize="15sp" />
 
 
         <RelativeLayout
             android:id="@+id/rl_img"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp">
 
+            <ProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
             <ImageView
                 android:id="@+id/img"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/road_bg" />
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/rounded_gray_transparent"
+                android:src="@drawable/logo_paulfy" />
 
             <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:layout_marginBottom="3dp"-->
-                <!--android:layout_marginLeft="4dp"-->
-                <!--android:layout_marginRight="3dp"-->
-                <!--android:background="@drawable/button_bottom_rounded_gray"-->
-                <!--android:gravity="center"-->
-                <!--android:maxLines="1"-->
-                <!--android:text="Cnet"-->
-                <!--android:textColor="@color/white" />-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_marginBottom="3dp"-->
+            <!--android:layout_marginLeft="4dp"-->
+            <!--android:layout_marginRight="3dp"-->
+            <!--android:background="@drawable/button_bottom_rounded_gray"-->
+            <!--android:gravity="center"-->
+            <!--android:maxLines="1"-->
+            <!--android:text="Cnet"-->
+            <!--android:textColor="@color/white" />-->
         </RelativeLayout>
 
     </RelativeLayout>
@@ -98,13 +108,15 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:alpha=".5"
+        android:alpha=".0"
+        android:visibility="gone"
         android:background="@color/black"></View>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:paddingBottom="10dp"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -118,11 +130,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:alpha=".5"
-                android:fontFamily="@font/bentonsans_light"
                 android:drawableLeft="@drawable/ic_upvote"
-                android:drawableRight="@drawable/ic_down_vote"
                 android:drawablePadding="5dp"
+                android:fontFamily="@font/app_font"
                 android:gravity="center"
+                android:textSize="12sp"
                 android:padding="5dp"
                 android:text="0"
                 android:textColor="@color/black" />
@@ -132,7 +144,7 @@
             android:layout_width="1px"
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
-            android:alpha=".6"
+            android:alpha=".4"
             android:background="@color/black"></View>
 
         <RelativeLayout
@@ -146,10 +158,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:alpha=".5"
-                android:fontFamily="@font/bentonsans_light"
                 android:drawableLeft="@drawable/comments"
                 android:drawablePadding="10dp"
+                android:fontFamily="@font/app_font"
                 android:gravity="center"
+                android:textSize="12sp"
                 android:padding="5dp"
                 android:text="0"
                 android:textColor="@color/black" />
@@ -159,7 +172,7 @@
             android:layout_width="1px"
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
-            android:alpha=".6"
+            android:alpha=".4"
             android:background="@color/black"></View>
 
         <RelativeLayout
@@ -173,11 +186,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:alpha=".5"
-                android:fontFamily="@font/bentonsans_light"
                 android:drawableLeft="@drawable/ic_share_new"
                 android:drawablePadding="10dp"
+                android:fontFamily="@font/app_font"
                 android:gravity="center"
                 android:padding="5dp"
+                android:textSize="12sp"
                 android:text="Share"
                 android:textColor="@color/black" />
         </RelativeLayout>
@@ -186,6 +200,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:alpha=".5"
+        android:alpha="0"
         android:background="@color/black"></View>
 </LinearLayout>

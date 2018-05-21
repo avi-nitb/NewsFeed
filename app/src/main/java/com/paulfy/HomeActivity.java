@@ -90,48 +90,49 @@ public class HomeActivity extends CustomActivity
 //        new FetchFeedTask().execute((Void) null);
 //        getCall(getContext(), "https://www.vanguardngr.com/news/feed/", "Loading...", 1);
 
-        adView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+//        adView = findViewById(R.id.adView);
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//        adView.loadAd(adRequest);
 
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                adView.setVisibility(View.VISIBLE);
-                // Code to be executed when an ad finishes loading.
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
-            }
-
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when when the user is about to return
-                // to the app after tapping on an ad.
-            }
-        });
+//        adView.setAdListener(new AdListener() {
+//            @Override
+//            public void onAdLoaded() {
+//                adView.setVisibility(View.VISIBLE);
+//                // Code to be executed when an ad finishes loading.
+//            }
+//
+//            @Override
+//            public void onAdFailedToLoad(int errorCode) {
+//                // Code to be executed when an ad request fails.
+//            }
+//
+//            @Override
+//            public void onAdOpened() {
+//                // Code to be executed when an ad opens an overlay that
+//                // covers the screen.
+//            }
+//
+//            @Override
+//            public void onAdLeftApplication() {
+//                // Code to be executed when the user has left the app.
+//            }
+//
+//            @Override
+//            public void onAdClosed() {
+//                // Code to be executed when when the user is about to return
+//                // to the app after tapping on an ad.
+//            }
+//        });
 
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-9072765546752621~8005940852");
+        mInterstitialAd.setAdUnitId("ca-app-pub-9072765546752621/2889469255");
         mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("AC6A3F2EAEA855A497DB24D8A38B497A").build());
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
                 Log.d("interestitial_check", "Loaded");
+                mInterstitialAd.show();
                 // Code to be executed when an ad finishes loading.
             }
 

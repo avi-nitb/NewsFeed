@@ -1,27 +1,42 @@
 package com.paulfy;
 
+import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.loopj.android.http.RequestParams;
 import com.paulfy.application.AppConstants;
 import com.paulfy.application.MyApp;
 import com.paulfy.application.SingleInstance;
 import com.paulfy.model.NewsModel;
+import com.paulfy.utils.DipPixelHelper;
+import com.thefinestartist.finestwebview.FinestWebView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,6 +57,7 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
     private BannerSlider bannerSlider;
     private NewsModel.Data d;
     private TextView txt_visit;
+    AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,24 +116,57 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
 
 
 //        25 April 2018 | 9:15 am
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy ");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy h:m a");
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         long time = 0;
         try {
             time = sdf.parse(d.getNews_upload_time().replace("| ", "")).getTime();
-
-
             long now = System.currentTimeMillis();
-
             CharSequence ago =
                     DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS);
-            txt_cat_date.setText(ago.toString());
+            txt_cat_date.setText(ago.toString().replace("minutes","m")
+                    .replace("ago","").replace("hours","h").replace("hour","h"));
             Log.d("my time to show", ago.toString());
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                adView.setVisibility(View.VISIBLE);
+                // Code to be executed when an ad finishes loading.
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when when the user is about to return
+                // to the app after tapping on an ad.
+            }
+        });
     }
 
     @Override
@@ -129,6 +178,12 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
                 p.put("user_id", MyApp.getApplication().readUser().getId());
 
                 postCall(this, AppConstants.BASE_URL + "bookmarkNews", p, "Saving...", 5);
+                break;
+            case R.id.action_twitter:
+                shareTwitter(NewsDetailsActivity.this, d.getTitle(), d.getTitle_url(), "", "");
+                break;
+            case R.id.action_facebook:
+                shareFacebook(NewsDetailsActivity.this, d.getTitle(), d.getTitle_url());
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -168,10 +223,34 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
         super.onClick(v);
 
         if (v == txt_visit) {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(d.getTitle_url()));
-            startActivity(browserIntent);
+//            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(d.getTitle_url()));
+//            startActivity(browserIntent);
+
+                new FinestWebView.Builder(this)
+                        .titleDefault(d.getTitle())
+                        .toolbarScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL |
+                                AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS)
+                        .gradientDivider(false)
+                        .dividerHeight(100)
+                        .toolbarColorRes(R.color.colorPrimary)
+                        .dividerColorRes(R.color.grey_hex_a3)
+                        .dividerHeight(0)
+                        .iconDefaultColorRes(R.color.white)
+                        .titleColorRes(R.color.white)
+                        .showIconClose(false)
+                        .disableIconBack(false)
+                        .iconDisabledColorRes(R.color.grey_hex_f0)
+                        .iconPressedColorRes(R.color.white)
+                        .progressBarHeight(DipPixelHelper.getPixel(this, 3))
+                        .progressBarColorRes(R.color.colorAccent)
+                        .backPressToClose(false)
+                        .setCustomAnimations(R.anim.activity_open_enter, R.anim.activity_open_exit, R.anim.activity_close_enter, R.anim.activity_close_exit)
+                        .show(d.getTitle_url());
         }
     }
+
+
+
 
     private Context getContext() {
         return NewsDetailsActivity.this;
@@ -215,5 +294,72 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
         postCall(NewsDetailsActivity.this, AppConstants.BASE_URL + "bookmarkNews", p, "Saving...", 5);
     }
 
+    public static void shareFacebook(Activity activity, String text, String url) {
+        boolean facebookAppFound = false;
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(url));
 
+        PackageManager pm = activity.getPackageManager();
+        List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
+        for (final ResolveInfo app : activityList) {
+            if ((app.activityInfo.packageName).contains("com.facebook.katana")) {
+                final ActivityInfo activityInfo = app.activityInfo;
+                final ComponentName name = new ComponentName(activityInfo.applicationInfo.packageName, activityInfo.name);
+                shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+                shareIntent.setComponent(name);
+                facebookAppFound = true;
+                break;
+            }
+        }
+        if (!facebookAppFound) {
+            String sharerUrl = "https://www.facebook.com/sharer/sharer.php?u=" + url;
+            shareIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sharerUrl));
+        }
+        activity.startActivity(shareIntent);
+    }
+
+    /**
+     * Share on Twitter. Using Twitter app if installed or web link otherwise.
+     *
+     * @param activity activity which launches the intent
+     * @param text     text to share
+     * @param url      url to share
+     * @param via      twitter username without '@' who shares
+     * @param hashtags hashtags for tweet without '#' and separated by ','
+     */
+    public static void shareTwitter(Activity activity, String text, String url, String via, String hashtags) {
+        StringBuilder tweetUrl = new StringBuilder("https://twitter.com/intent/tweet?text=");
+        tweetUrl.append(TextUtils.isEmpty(text) ? urlEncode(" ") : urlEncode(text));
+        if (!TextUtils.isEmpty(url)) {
+            tweetUrl.append("&url=");
+            tweetUrl.append(urlEncode(url));
+        }
+        if (!TextUtils.isEmpty(via)) {
+            tweetUrl.append("&via=");
+            tweetUrl.append(urlEncode(via));
+        }
+        if (!TextUtils.isEmpty(hashtags)) {
+            tweetUrl.append("&hastags=");
+            tweetUrl.append(urlEncode(hashtags));
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(tweetUrl.toString()));
+        List<ResolveInfo> matches = activity.getPackageManager().queryIntentActivities(intent, 0);
+        for (ResolveInfo info : matches) {
+            if (info.activityInfo.packageName.toLowerCase().startsWith("com.twitter")) {
+                intent.setPackage(info.activityInfo.packageName);
+            }
+        }
+        activity.startActivity(intent);
+    }
+
+    public static String urlEncode(String s) {
+        try {
+            return URLEncoder.encode(s, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            Log.wtf("wtf", "UTF-8 should always be supported", e);
+            throw new RuntimeException("URLEncoder.encode() failed for " + s);
+        }
+    }
 }

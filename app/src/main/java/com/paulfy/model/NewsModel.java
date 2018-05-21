@@ -61,6 +61,15 @@ public class NewsModel implements Serializable
         private String created_at;
         private String updated_at;
         private Data news;
+        private boolean isImageLoaded = false;
+
+        public boolean isImageLoaded() {
+            return isImageLoaded;
+        }
+
+        public void setImageLoaded(boolean imageLoaded) {
+            isImageLoaded = imageLoaded;
+        }
 
         public Data getNews() {
             return news;

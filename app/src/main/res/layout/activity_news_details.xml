@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +10,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/adView"
+        android:layout_below="@+id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,9 +23,9 @@
                 android:id="@+id/txt_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/bentonsans_black"
-                android:padding="10dp"
+                android:fontFamily="@font/app_font"
                 android:lineSpacingExtra="5dp"
+                android:padding="10dp"
                 android:textColor="@color/black"
                 android:textSize="28sp" />
 
@@ -31,7 +33,7 @@
                 android:id="@+id/txt_cat_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/bentonsans_light"
+                android:fontFamily="@font/app_font"
                 android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
                 android:text="category and date time"
@@ -48,24 +50,37 @@
                 android:id="@+id/txt_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/bentonsans_light"
+                android:fontFamily="@font/app_font"
+                android:lineSpacingExtra="8dp"
                 android:padding="10dp"
-                android:text="sdfdf"
+                android:text="sdf"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
+
             <TextView
+                android:id="@+id/txt_visit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/button_rounded_blue"
+                android:fontFamily="@font/app_font"
+                android:gravity="center"
                 android:padding="10dp"
                 android:text="Visit Source"
                 android:textColor="@color/white"
-                android:gravity="center"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:id="@+id/txt_visit"
-                android:layout_margin="20dp"
-                android:background="@drawable/button_rounded_blue"
-                />
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-5411769310497915/2208674913"></com.google.android.gms.ads.AdView>
+
+</RelativeLayout>

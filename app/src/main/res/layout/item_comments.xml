@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="4dp"
-        android:fontFamily="@font/bentonsans_light"
+        android:fontFamily="@font/app_font"
         android:alpha=".6"
         android:text="Abc - 19d"
         android:textColor="@color/black"
@@ -28,8 +28,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:fontFamily="@font/bentonsans_light"
+            android:fontFamily="@font/app_font"
             android:maxLines="2"
+            android:layout_marginTop="3dp"
+            android:lineSpacingExtra="5dp"
             android:text="Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet Lorem ipsum dummy sit amet"
             android:textColor="@color/black"
             android:textSize="15sp" />
@@ -47,6 +49,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:visibility="gone"
         android:background="@color/white"
         android:orientation="horizontal">
 
@@ -60,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:alpha=".5"
-                android:fontFamily="@font/bentonsans_light"
+                android:fontFamily="@font/app_font"
                 android:drawablePadding="10dp"
                 android:drawableRight="@drawable/ic_more"
                 android:gravity="center"
@@ -88,7 +91,7 @@
                 android:drawableLeft="@drawable/ic_reply"
                 android:drawablePadding="10dp"
                 android:gravity="center"
-                android:fontFamily="@font/bentonsans_light"
+                android:fontFamily="@font/app_font"
                 android:text="Reply"
 
                 android:textColor="@color/black" />
@@ -111,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:alpha=".5"
-                android:fontFamily="@font/bentonsans_light"
+                android:fontFamily="@font/app_font"
                 android:drawableLeft="@drawable/arrow_up"
                 android:drawablePadding="3dp"
                 android:gravity="center"

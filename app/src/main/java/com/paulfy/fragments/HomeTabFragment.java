@@ -257,7 +257,7 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
             newsdata.addAll(newsModel.getData());
             SingleInstance.getInstance().setNews(newsdata);
             rv_home.setVisibility(View.GONE);
-            txt_choose_cat.setVisibility(View.VISIBLE);
+            txt_choose_cat.setVisibility(View.GONE);
             text_cat_head.setVisibility(View.GONE);
             rv_news.setVisibility(View.VISIBLE);
             btn_load.setVisibility(View.GONE);

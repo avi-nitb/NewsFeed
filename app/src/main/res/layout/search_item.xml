@@ -5,7 +5,7 @@
     android:background="@color/white"
     android:padding="10dp"
     android:textColor="@color/black"
-    android:fontFamily="@font/bentonsans_light"
+    android:fontFamily="@font/app_font"
     android:textSize="16sp">
 
 </TextView>

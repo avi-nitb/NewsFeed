@@ -167,15 +167,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/pin"
                 android:drawablePadding="10dp"
-                android:fontFamily="@font/bentonsans_light"
                 android:drawableRight="@drawable/dropdown"
+                android:fontFamily="@font/app_font"
                 android:gravity="center_vertical"
                 android:text="Best Comments"
                 android:textColor="@color/black" />
@@ -195,45 +196,36 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/footer_bg"
+        android:orientation="vertical"
         android:weightSum="10">
 
-       <!-- <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="9">-->
+        <Button
+            android:id="@+id/btn_post"
+            android:background="@color/colorPrimaryDark"
+            android:text="Add a comment"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/app_font"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-            <EditText
-                android:id="@+id/edt_comment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:imeOptions="actionSend"
-                android:inputType="text"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/edit_comment"
-                android:hint="Add a comment"
-                android:padding="8dp"
-                android:textSize="12sp" />
-        <!--</LinearLayout>-->
-
-       <!-- <LinearLayout
-            android:layout_width="0dp"
+        <EditText
+            android:id="@+id/edt_comment"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/btn_postComment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/bentonsans_light"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/ic_send"
-                android:padding="8dp" />
-        </LinearLayout>-->
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/edit_comment"
+            android:gravity="start"
+            android:hint="Add a comment"
+            android:imeOptions="actionSend"
+            android:inputType="text"
+            android:padding="8dp"
+            android:textSize="12sp"
+            android:visibility="gone" />
     </LinearLayout>
 </RelativeLayout>
