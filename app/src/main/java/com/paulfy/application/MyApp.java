@@ -45,6 +45,8 @@ import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.StreamCorruptedException;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -579,6 +581,15 @@ public class MyApp extends Application {
         }
         return str;
     }
+
+    public static String getDomainName(String url) throws URISyntaxException {
+        URI uri = new URI(url);
+//        http://www.espnfc.com//feed
+        String domain = uri.getHost().replace("http://","").replace("https://","");
+        return domain.startsWith("www.") ? domain.substring(4) : domain;
+    }
+
+
 
     public static String getDateOrTimeFromMillis(String x) {
         DateFormat formatter = new SimpleDateFormat("dd/MM/yy - hh:mm a");

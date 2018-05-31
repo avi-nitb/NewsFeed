@@ -66,8 +66,8 @@ public class PopularTabFragment extends CustomFragment implements CustomFragment
         rv_home.setLayoutManager(new LinearLayoutManager(getContext()));
         setResponseListener(this);
 
-        p.put("categories_id[0]", 2);
-//        p.put("categories_id[1]", 2);
+        p.put("categories_id[0]", 3);
+        p.put("categories_id[1]", 5);
 //        p.put("categories_id[2]", 3);
 //        p.put("categories_id[3]", 4);
 //        p.put("categories_id[4]", 5);
@@ -76,10 +76,10 @@ public class PopularTabFragment extends CustomFragment implements CustomFragment
         if (SingleInstance.getInstance().getNew_newsList().size()>0){
             popularTab_adapter = new PopularTab_Adapter(PopularTabFragment.this, SingleInstance.getInstance().getNew_newsList());
             rv_home.setAdapter(popularTab_adapter);
-            postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "", 0);
+            postCall(getContext(), AppConstants.BASE_URL + "getnewsLikesComment", p, "", 0);
         } else{
             startProgress();
-            postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "Loading Please Wait...", 0);
+            postCall(getContext(), AppConstants.BASE_URL + "getnewsLikesComment", p, "Loading Please Wait...", 0);
         }
 
 

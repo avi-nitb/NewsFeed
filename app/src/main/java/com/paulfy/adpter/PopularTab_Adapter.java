@@ -96,23 +96,26 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
                         @Override
                         public void onSuccess() {
                             data.get(position).setImageLoaded(true);
-                           try{
-                               notifyDataSetChanged();
-                           }catch (Exception e){}
+                            try {
+                                notifyDataSetChanged();
+                            } catch (Exception e) {
+                            }
                         }
 
                         @Override
                         public void onError() {
                             data.get(position).setImageLoaded(false);
-                            try{
+                            try {
                                 notifyDataSetChanged();
-                            }catch (Exception e){}
+                            } catch (Exception e) {
+                            }
                         }
                     });
 
         }
 
 //        25 April 2018 | 9:15 am
+//        30 April 2018 | 7:57 am
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy h:m a");
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         long time = 0;
@@ -121,9 +124,13 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
             long now = System.currentTimeMillis();
             CharSequence ago =
                     DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS);
-            holder.txt_date.setText(ago.toString().replace("minutes","m")
-            .replace("ago","").replace("hours","h").replace("hour","h"));
+
+
+            holder.txt_date.setText(ago.toString().replace("minutes", "m")
+                    .replace("ago", "").replace("hours", "h").replace("hour", "h").trim());
             Log.d("my time to show", ago.toString());
+            String source = MyApp.getDomainName(current.getSource());
+            holder.txt_date.setText(source.split("\\.")[0] + " . " + holder.txt_date.getText().toString().replace(" ", ""));
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (Exception e) {

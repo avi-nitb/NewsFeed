@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:background="@color/gray_bg"
         app:tabGravity="center"
-        android:visibility="gone"
+        android:visibility="visible"
         app:tabIndicatorColor="@color/colorPrimaryDark"
         app:tabMode="fixed"
         android:elevation="10dp"

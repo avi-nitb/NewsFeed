@@ -84,7 +84,7 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
 
         setTouchNClick(R.id.txt_visit);
 
-        if (d.getTitle_url().isEmpty()) {
+        if (d.getSource().isEmpty() || d.getSource().equalsIgnoreCase("No Source")) {
             txt_visit.setVisibility(View.GONE);
         }
 

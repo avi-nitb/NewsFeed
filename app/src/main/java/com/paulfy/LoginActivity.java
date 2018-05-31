@@ -1,12 +1,17 @@
 package com.paulfy;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
@@ -65,6 +70,48 @@ public class LoginActivity extends CustomActivity implements CustomActivity.Resp
             startActivity(new Intent(getContext(), SignupActivity.class));
         } else if (v.getId() == R.id.txt_forgot) {
 
+            // Creating alert Dialog with one Button
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+
+            //AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+
+            // Setting Dialog Title
+            alertDialog.setTitle("Enter Your Email Id");
+
+            final EditText input = new EditText(getContext());
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT);
+//            lp.setMargins(30, 0, 30, 0);
+            input.setLayoutParams(lp);
+            alertDialog.setView(input);
+
+            // Setting Positive "Yes" Button
+            alertDialog.setPositiveButton("YES",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Write your code here to execute after dialog
+                            String email = input.getText().toString();
+                            RequestParams p = new RequestParams();
+                            p.put("email", email);
+                            showLoadingDialog("");
+                            postCall(getContext(), AppConstants.BASE_URL + "checkEmail", p, "", 3);
+                            dialog.cancel();
+                        }
+                    });
+            // Setting Negative "NO" Button
+            alertDialog.setNegativeButton("NO",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Write your code here to execute after dialog
+                            dialog.cancel();
+                        }
+                    });
+
+            // closed
+
+            // Showing Alert Message
+            alertDialog.show();
         }
     }
 
@@ -84,6 +131,13 @@ public class LoginActivity extends CustomActivity implements CustomActivity.Resp
                 finishAffinity();
             } else {
                 MyApp.popMessage("Error!", "Invalid username or password", getContext());
+            }
+        } else if (callNumber == 3) {
+            if (o.optInt("code") == 200 && o.optBoolean("status")) {
+                String userId = o.optJSONObject("data").optString("id");
+                startActivity(new Intent(getContext(),ForgetPasswordActivity.class).putExtra("userId", userId));
+            } else {
+                MyApp.popMessage("Error!", o.optString("message"), getContext());
             }
         }
     }

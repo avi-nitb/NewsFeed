@@ -5,19 +5,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/gif_loader"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+    <TextView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        app:indicatorColor="@color/colorPrimaryDark"
-        app:indicatorName="BallGridPulseIndicator" />
+        android:drawableTop="@drawable/app_logo" />
 
     <TextView
         android:id="@+id/txt_load_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/gif_loader"
+        android:layout_below="@+id/image"
         android:layout_centerHorizontal="true"
         android:padding="10dp"
         android:text=""

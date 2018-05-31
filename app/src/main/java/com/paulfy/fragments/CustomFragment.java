@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,8 @@ import com.loopj.android.http.RequestParams;
 import com.paulfy.CustomActivity;
 import com.paulfy.R;
 import com.paulfy.application.MyApp;
+
+import net.frakbot.jumpingbeans.JumpingBeans;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -268,13 +271,28 @@ public class CustomFragment extends Fragment implements View.OnClickListener {
     public void showLoadingDialog(String message) {
         dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00ffffff")));
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ffffff")));
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_loader);
 
         TextView txt_load_message = dialog.findViewById(R.id.txt_load_message);
-        txt_load_message.setText(message);
+        TextView image = dialog.findViewById(R.id.image);
+        AlphaAnimation fadeIn = new AlphaAnimation(0.0f , 1.0f ) ;
+        AlphaAnimation fadeOut = new AlphaAnimation( 1.0f , 0.0f ) ;
+        image.startAnimation(fadeIn);
+        image.startAnimation(fadeOut);
+        fadeIn.setDuration(1200);
+        fadeIn.setFillAfter(true);
+        fadeOut.setDuration(1200);
+        fadeOut.setFillAfter(true);
+        fadeOut.setStartOffset(4200+fadeIn.getStartOffset());
+        JumpingBeans jumpingBeans2 = JumpingBeans.with(image)
+                .makeTextJump(0, image.length())
+                .setIsWave(false)
+                .setLoopDuration(1000)  // ms
+                .build();
 
+        txt_load_message.setText(message);
 
         dialog.show();
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();

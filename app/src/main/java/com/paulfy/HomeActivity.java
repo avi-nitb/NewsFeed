@@ -2,6 +2,7 @@ package com.paulfy;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -27,10 +29,10 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.paulfy.adpter.ViewPagerAdapter;
 import com.paulfy.application.MyApp;
+import com.paulfy.fragments.CategoriesFragment;
 import com.paulfy.fragments.HiddenNewsFragment;
 import com.paulfy.fragments.HomeFragment;
 import com.paulfy.fragments.HotNewsFragment;
-import com.paulfy.fragments.PopularTabFragment;
 import com.paulfy.fragments.ProfileFragment;
 import com.paulfy.fragments.SavedNewsFragment;
 import com.paulfy.model.RssModel;
@@ -53,10 +55,10 @@ public class HomeActivity extends CustomActivity
     private ImageButton btn_hot;
     private ImageButton btn_new;
     private ImageButton btn_chat;
-
     FragmentManager fragmentManager;
     public Toolbar toolbar;
     private InterstitialAd mInterstitialAd;
+    private HomeFragment homeFragment = new HomeFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,15 +79,15 @@ public class HomeActivity extends CustomActivity
 
 
         setupUiElements();
-        Fragment homefragment = new HomeFragment();
+
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, homefragment)
+                .replace(R.id.container, homeFragment)
                 .commit();
 
         Bundle bundle = new Bundle();
         bundle.putString("selectedSearchItem", "News");
-        homefragment.setArguments(bundle);
+        homeFragment.setArguments(bundle);
 
 //        new FetchFeedTask().execute((Void) null);
 //        getCall(getContext(), "https://www.vanguardngr.com/news/feed/", "Loading...", 1);
@@ -183,7 +185,7 @@ public class HomeActivity extends CustomActivity
                 .replace(R.id.container, home).commit();
         btn_chat.setImageResource(R.drawable.chat_gray);
         btn_profile.setImageResource(R.drawable.profile_active);
-        btn_new.setImageResource(R.drawable.new_inactive);
+        btn_new.setImageResource(R.drawable.category_inactive);
         btn_home.setImageResource(R.drawable.home_inactive);
         btn_hot.setImageResource(R.drawable.hot_inactive);
 
@@ -199,7 +201,7 @@ public class HomeActivity extends CustomActivity
                 .replace(R.id.container, home).commit();
         btn_chat.setImageResource(R.drawable.chat_gray);
         btn_profile.setImageResource(R.drawable.profile_active);
-        btn_new.setImageResource(R.drawable.new_inactive);
+        btn_new.setImageResource(R.drawable.category_inactive);
         btn_home.setImageResource(R.drawable.home_inactive);
         btn_hot.setImageResource(R.drawable.hot_inactive);
 
@@ -213,56 +215,62 @@ public class HomeActivity extends CustomActivity
         super.onClick(v);
         if (v == btn_chat) {
             toolbar.setVisibility(View.VISIBLE);
+            toolbar.setVisibility(View.VISIBLE);
             btn_chat.setImageResource(R.drawable.chat_black);
             btn_profile.setImageResource(R.drawable.profile_inactive);
             btn_new.setImageResource(R.drawable.new_inactive);
             btn_home.setImageResource(R.drawable.home_inactive);
             btn_hot.setImageResource(R.drawable.hot_inactive);
         } else if (v == btn_home) {
-            Fragment homefragment = new HomeFragment();
-
+            toolbar.setVisibility(View.VISIBLE);
+//            Fragment homefragment = new HomeFragment();
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, homefragment)
+                    .replace(R.id.container, homeFragment)
                     .commit();
             btn_chat.setImageResource(R.drawable.chat_gray);
             btn_profile.setImageResource(R.drawable.profile_inactive);
-            btn_new.setImageResource(R.drawable.new_inactive);
+            btn_new.setImageResource(R.drawable.category_inactive);
             btn_home.setImageResource(R.drawable.home_active);
             btn_hot.setImageResource(R.drawable.hot_inactive);
 
             Bundle bundle = new Bundle();
             bundle.putString("selectedSearchItem", "News");
-            homefragment.setArguments(bundle);
+            homeFragment.setArguments(bundle);
 
         } else if (v == btn_hot) {
+            toolbar.setVisibility(View.VISIBLE);
             fragmentManager.beginTransaction()
                     .replace(R.id.container, new HotNewsFragment())
                     .commit();
             btn_chat.setImageResource(R.drawable.chat_gray);
             btn_profile.setImageResource(R.drawable.profile_inactive);
-            btn_new.setImageResource(R.drawable.new_inactive);
+            btn_new.setImageResource(R.drawable.category_inactive);
             btn_home.setImageResource(R.drawable.home_inactive);
             btn_hot.setImageResource(R.drawable.hot_active);
         } else if (v == btn_new) {
+            toolbar.setVisibility(View.GONE);
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, new PopularTabFragment())
+                    .replace(R.id.container, new CategoriesFragment())
                     .commit();
             btn_chat.setImageResource(R.drawable.chat_gray);
             btn_profile.setImageResource(R.drawable.profile_inactive);
-            btn_new.setImageResource(R.drawable.new_active);
+            btn_new.setImageResource(R.drawable.category_active);
             btn_home.setImageResource(R.drawable.home_inactive);
             btn_hot.setImageResource(R.drawable.hot_inactive);
         } else if (v == btn_profile) {
+            toolbar.setVisibility(View.VISIBLE);
             fragmentManager.beginTransaction()
                     .replace(R.id.container, new ProfileFragment())
                     .commit();
             btn_chat.setImageResource(R.drawable.chat_gray);
             btn_profile.setImageResource(R.drawable.profile_active);
-            btn_new.setImageResource(R.drawable.new_inactive);
+            btn_new.setImageResource(R.drawable.category_inactive);
             btn_home.setImageResource(R.drawable.home_inactive);
             btn_hot.setImageResource(R.drawable.hot_inactive);
         }
     }
+
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onBackPressed() {
@@ -276,8 +284,20 @@ public class HomeActivity extends CustomActivity
             } else {
                 Log.d("TAG", "The interstitial wasn't loaded yet.");
             }
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
-            super.onBackPressed();
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, 2000);
         }
     }
 
@@ -381,14 +401,14 @@ public class HomeActivity extends CustomActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_business) {
-            Fragment homefragment = new HomeFragment();
+//            Fragment homefragment = new HomeFragment();
 
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, homefragment)
+                    .replace(R.id.container, homeFragment)
                     .commit();
             Bundle bundle = new Bundle();
             bundle.putString("selectedSearchItem", "Business");
-            homefragment.setArguments(bundle);
+            homeFragment.setArguments(bundle);
         } else if (id == R.id.nav_finance) {
 
         } else if (id == R.id.nav_sports) {

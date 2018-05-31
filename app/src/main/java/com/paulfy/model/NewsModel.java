@@ -61,6 +61,16 @@ public class NewsModel implements Serializable
         private String created_at;
         private String updated_at;
         private Data news;
+        private String source;
+
+        public String getSource() {
+            return source;
+        }
+
+        public void setSource(String source) {
+            this.source = source;
+        }
+
         private boolean isImageLoaded = false;
 
         public boolean isImageLoaded() {

@@ -18,18 +18,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 import com.paulfy.NewsDetailsActivity;
 import com.paulfy.R;
-import com.paulfy.adpter.HomeTabAdapter;
 import com.paulfy.adpter.PopularTab_Adapter;
 import com.paulfy.application.AppConstants;
 import com.paulfy.application.MyApp;
 import com.paulfy.application.SingleInstance;
-import com.paulfy.model.CategoryModel;
 import com.paulfy.model.NewsModel;
 
 import org.json.JSONArray;
@@ -40,19 +37,15 @@ import java.util.HashMap;
 import java.util.List;
 
 public class HomeTabFragment extends CustomFragment implements CustomFragment.ResponseCallback, SearchView.OnQueryTextListener {
-    private RecyclerView rv_home, rv_news;
-    private TextView btn_load;
+
+    private RecyclerView rv_news;
     ProgressBar progressBar;
-    private CategoryModel categoryModel;
     private SwipeRefreshLayout mswipeToRefresh;
     private NewsModel newsModel = new NewsModel();
     RequestParams p = new RequestParams();
     private PopularTab_Adapter popularTab_adapter;
-    private List<CategoryModel.Data> dataList;
     private List<NewsModel.Data> newsdata;
-    private HomeTabAdapter homeTabAdapter;
-    private TextView text_cat_head;
-    private TextView txt_choose_cat;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,81 +67,51 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
         setResponseListener(this);
         //Initialization
 
-        txt_choose_cat = myView.findViewById(R.id.txt_choose_cat);
-        rv_home = myView.findViewById(R.id.rv_home);
         rv_news = myView.findViewById(R.id.rv_news);
-        btn_load = myView.findViewById(R.id.btn_load);
         progressBar = myView.findViewById(R.id.loader);
-        text_cat_head = myView.findViewById(R.id.text_cat_head);
         mswipeToRefresh = myView.findViewById(R.id.mswipeToRefresh);
-        dataList = new ArrayList<>();
         newsdata = new ArrayList<>();
-        categoryModel = new CategoryModel();
-        homeTabAdapter = new HomeTabAdapter(getContext(), dataList, btn_load, HomeTabFragment.this);
 
 
-        setTouchNClick(btn_load);
-        setTouchNClick(txt_choose_cat);
-
-
-        if (!MyApp.getApplication().isConnectingToInternet(getActivity())) {
-            MyApp.popFinishableMessage("Alert", "Please connect to a working internet connection", getActivity());
-
+//        if (MyApp.getApplication().readRequestMap().keySet().size() > 0) {
+//
+//
+//            HashMap<String, Integer> map = MyApp.getApplication().readRequestMap();
+//            for (String s : map.keySet()) {
+        p.put("categories_id[0]", "1");
+        p.put("categories_id[1]", "2");
+//                p.put("categories_id[2]", "3");
+//                p.put("categories_id[3]", "4");
+//                p.put("categories_id[4]", "5");
+//            }
+        rv_news.setVisibility(View.VISIBLE);
+        p.put("user_id", MyApp.getApplication().readUser().getId());
+        showLoadingDialog("");
+        if (SingleInstance.getInstance().getNews().size() > 0) {
+            popularTab_adapter = new PopularTab_Adapter(HomeTabFragment.this, SingleInstance.getInstance().getNews());
+            rv_news.setAdapter(popularTab_adapter);
+            postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "", 2);
         } else {
-            //            Get Data
-            RequestParams p = new RequestParams();
-            postCall(getContext(), AppConstants.BASE_URL + "getAllCategories", p, "", 1);
+            startProgress();
+            postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "Loading Please Wait...", 2);
         }
 
-        if (MyApp.getApplication().readRequestMap().keySet().size() > 0) {
+//        }
 
-
-
-            HashMap<String, Integer> map = MyApp.getApplication().readRequestMap();
-            for (String s : map.keySet()) {
-                p.put(s, map.get(s));
-            }
-            rv_home.setVisibility(View.GONE);
-//                txt_choose_cat.setVisibility(View.VISIBLE);
-            text_cat_head.setVisibility(View.GONE);
-            rv_news.setVisibility(View.VISIBLE);
-            btn_load.setVisibility(View.GONE);
-            p.put("user_id", MyApp.getApplication().readUser().getId());
-
-            if (SingleInstance.getInstance().getNews().size()>0) {
-                popularTab_adapter = new PopularTab_Adapter(HomeTabFragment.this,SingleInstance.getInstance().getNews());
-                rv_news.setAdapter(popularTab_adapter);
-                postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "", 2);
-            } else {
-                startProgress();
-                postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "Loading Please Wait...", 2);
-            }
-
-        }
-
-
-        //setUp Recycler View
-
-        rv_home.setLayoutManager(new LinearLayoutManager(getContext()));
-        rv_home.setAdapter(homeTabAdapter);
 
         rv_news.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mswipeToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-        {
+        mswipeToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefresh()
-            {
-                new Handler().postDelayed(new Runnable()
-                {
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
                     @Override
-                    public void run()
-                    {
+                    public void run() {
                         startProgress();
                         postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "Loading Please Wait...", 2);
                         mswipeToRefresh.setRefreshing(false);
                     }
-                },3000);
+                }, 3000);
             }
         });
 
@@ -156,111 +119,23 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
         return myView;
     }
 
-    public void getfeeds(List<Integer> categories) {
-        RequestParams p = new RequestParams();
-        int i = 0;
-        HashMap<String, Integer> requestMap = new HashMap<>();
-        if (categories.size() == 1) {
-            p.put("categories_id[0]", categories.get(i));
-            requestMap.put("categories_id[0]", categories.get(i));
-
-        } else if (categories.size() == 2) {
-            p.put("categories_id[0]", categories.get(i));
-            requestMap.put("categories_id[0]", categories.get(i));
-            p.put("categories_id[1]", categories.get(++i));
-            requestMap.put("categories_id[1]", categories.get(i));
-        } else if (categories.size() == 3) {
-            p.put("categories_id[0]", categories.get(i));
-            requestMap.put("categories_id[0]", categories.get(i));
-
-            p.put("categories_id[1]", categories.get(++i));
-            requestMap.put("categories_id[1]", categories.get(i));
-
-            p.put("categories_id[2]", categories.get(++i));
-            requestMap.put("categories_id[2]", categories.get(i));
-        } else if (categories.size() == 4) {
-            p.put("categories_id[0]", categories.get(i));
-            requestMap.put("categories_id[0]", categories.get(i));
-
-            p.put("categories_id[1]", categories.get(++i));
-            requestMap.put("categories_id[1]", categories.get(i));
-
-            p.put("categories_id[2]", categories.get(++i));
-            requestMap.put("categories_id[2]", categories.get(i));
-
-            p.put("categories_id[3]", categories.get(++i));
-            requestMap.put("categories_id[3]", categories.get(i));
-
-        } else if (categories.size() == 5) {
-            p.put("categories_id[0]", categories.get(i));
-            requestMap.put("categories_id[0]", categories.get(i));
-
-            p.put("categories_id[1]", categories.get(++i));
-            requestMap.put("categories_id[1]", categories.get(i));
-
-            p.put("categories_id[2]", categories.get(++i));
-            requestMap.put("categories_id[2]", categories.get(i));
-
-            p.put("categories_id[3]", categories.get(++i));
-            requestMap.put("categories_id[3]", categories.get(i));
-
-            p.put("categories_id[4]", categories.get(++i));
-            requestMap.put("categories_id[4]", categories.get(i));
-
-        } else {
-            MyApp.showMassage(getContext(), "Please select a category");
-            return;
-        }
-
-        MyApp.getApplication().writeRequestMap(requestMap);
-
-        p.put("user_id", MyApp.getApplication().readUser().getId());
-
-        if (SingleInstance.getInstance().getNews().size()>0) {
-            popularTab_adapter = new PopularTab_Adapter(HomeTabFragment.this,SingleInstance.getInstance().getNews());
-            rv_news.setAdapter(popularTab_adapter);
-            postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "", 2);
-        } else {
-            startProgress();
-            postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "Loading Please Wait...", 2);
-        }
-    }
 
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        if (v == txt_choose_cat) {
 
-//            RequestParams p = new RequestParams();
-//            postCall(getContext(), AppConstants.BASE_URL + "getAllCategories", p, "", 1);
-            txt_choose_cat.setVisibility(View.GONE);
-            rv_home.setVisibility(View.VISIBLE);
-//            text_cat_head.setVisibility(View.VISIBLE);
-            rv_news.setVisibility(View.GONE);
-            btn_load.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
     public void onJsonObjectResponseReceived(JSONObject o, int callNumber) {
-        if (callNumber == 1 && o.optInt("code") == 200) {
-
-            categoryModel = new Gson().fromJson(o.toString(), CategoryModel.class);
-            dataList.addAll(categoryModel.getData());
-            homeTabAdapter.notifyDataSetChanged();
-
-        } else if (callNumber == 2 && o.optInt("code") == 200) {
-
+        if (callNumber == 2 && o.optInt("code") == 200) {
+            dismissDialog();
             newsdata.clear();
 
             newsModel = new Gson().fromJson(o.toString(), NewsModel.class);
             newsdata.addAll(newsModel.getData());
             SingleInstance.getInstance().setNews(newsdata);
-            rv_home.setVisibility(View.GONE);
-            txt_choose_cat.setVisibility(View.GONE);
-            text_cat_head.setVisibility(View.GONE);
             rv_news.setVisibility(View.VISIBLE);
-            btn_load.setVisibility(View.GONE);
             popularTab_adapter = new PopularTab_Adapter(HomeTabFragment.this, SingleInstance.getInstance().getNews());
             rv_news.setAdapter(popularTab_adapter);
             progressBar.clearAnimation();
@@ -375,7 +250,7 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
     }
 
 
-    public void startProgress(){
+    public void startProgress() {
 
         ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, 500); // see this max value coming back here, we animate towards that value
         animation.setDuration(5000); // in milliseconds

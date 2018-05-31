@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +28,10 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.paulfy.application.MyApp;
+import com.paulfy.utils.ExceptionHandler;
 import com.paulfy.utils.TouchEffect;
+
+import net.frakbot.jumpingbeans.JumpingBeans;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -67,7 +72,7 @@ public class CustomActivity extends AppCompatActivity implements OnClickListener
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         // setupActionBar();
 
         // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -363,11 +368,19 @@ public class CustomActivity extends AppCompatActivity implements OnClickListener
     public void showLoadingDialog(String message) {
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00ffffff")));
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ffffff")));
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_loader);
 
         TextView txt_load_message = dialog.findViewById(R.id.txt_load_message);
+        TextView image = dialog.findViewById(R.id.image);
+
+        JumpingBeans jumpingBeans2 = JumpingBeans.with(image)
+                .makeTextJump(0, image.length())
+                .setIsWave(false)
+                .setLoopDuration(1000)  // ms
+                .build();
+
         txt_load_message.setText(message);
 
         dialog.show();

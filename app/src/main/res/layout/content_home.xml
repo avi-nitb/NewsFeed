@@ -28,7 +28,7 @@
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/footer_bg"
         android:orientation="horizontal"
@@ -67,7 +67,7 @@
                 android:background="@null"
                 android:padding="10dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/new_inactive" />
+                android:src="@drawable/category_inactive" />
         </RelativeLayout>
 
 
