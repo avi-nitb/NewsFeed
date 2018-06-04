@@ -17,6 +17,7 @@ import com.paulfy.adpter.CommentsAdapter;
 import com.paulfy.application.AppConstants;
 import com.paulfy.application.MyApp;
 import com.paulfy.model.NewsModel;
+import com.paulfy.utils.SpinnerTextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,6 +34,7 @@ public class CommentsActivity extends CustomActivity implements CustomActivity.R
     private int news_id;
     CommentsAdapter adapter;
     private Button btn_post;
+    private SpinnerTextView spin_filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,8 @@ public class CommentsActivity extends CustomActivity implements CustomActivity.R
         commentList = (List<NewsModel.Data.Comments>) extras.getSerializable("comments");
         setTouchNClick(R.id.btn_close);
         edt_comment = findViewById(R.id.edt_comment);
+        spin_filter = findViewById(R.id.spin_filter);
+        spin_filter.setSelection(0);
         btn_post = findViewById(R.id.btn_post);
         setResponseListener(this);
         rv_comments = findViewById(R.id.rv_comments);

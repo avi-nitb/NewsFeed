@@ -14,6 +14,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -276,21 +279,51 @@ public class CustomFragment extends Fragment implements View.OnClickListener {
         dialog.setContentView(R.layout.dialog_loader);
 
         TextView txt_load_message = dialog.findViewById(R.id.txt_load_message);
-        TextView image = dialog.findViewById(R.id.image);
-        AlphaAnimation fadeIn = new AlphaAnimation(0.0f , 1.0f ) ;
-        AlphaAnimation fadeOut = new AlphaAnimation( 1.0f , 0.0f ) ;
-        image.startAnimation(fadeIn);
-        image.startAnimation(fadeOut);
-        fadeIn.setDuration(1200);
-        fadeIn.setFillAfter(true);
-        fadeOut.setDuration(1200);
-        fadeOut.setFillAfter(true);
-        fadeOut.setStartOffset(4200+fadeIn.getStartOffset());
-        JumpingBeans jumpingBeans2 = JumpingBeans.with(image)
-                .makeTextJump(0, image.length())
-                .setIsWave(false)
-                .setLoopDuration(1000)  // ms
-                .build();
+        final ImageView image = dialog.findViewById(R.id.image);
+        final Animation animation1 = new AlphaAnimation(0.0f, 1.0f);
+        animation1.setDuration(1000);
+        animation1.setStartOffset(500);
+        final Animation animation2 = new AlphaAnimation(1.0f, 0.0f);
+        //animation1 AnimationListener
+        animation1.setAnimationListener(new Animation.AnimationListener(){
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                image.startAnimation(animation2);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationStart(Animation arg0) {
+            }
+
+        });
+
+
+        animation2.setDuration(1000);
+        animation2.setStartOffset(500);
+
+        //animation2 AnimationListener
+        animation2.setAnimationListener(new Animation.AnimationListener(){
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                image.startAnimation(animation1);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+            }
+            @Override
+            public void onAnimationStart(Animation arg0) {
+            }
+
+        });
+
+        image.startAnimation(animation1);
 
         txt_load_message.setText(message);
 

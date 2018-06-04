@@ -1,6 +1,7 @@
 package com.paulfy;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -49,7 +50,7 @@ import fr.arnaudguyon.xmltojsonlib.XmlToJson;
 public class HomeActivity extends CustomActivity
         implements NavigationView.OnNavigationItemSelectedListener, CustomActivity.ResponseCallback {
 
-//    AdView adView;
+    //    AdView adView;
     private ImageButton btn_home;
     private ImageButton btn_profile;
     private ImageButton btn_hot;
@@ -58,7 +59,7 @@ public class HomeActivity extends CustomActivity
     FragmentManager fragmentManager;
     public Toolbar toolbar;
     private InterstitialAd mInterstitialAd;
-    private HomeFragment homeFragment = new HomeFragment();
+//    private HomeFragment homeFragment = new HomeFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,12 +83,12 @@ public class HomeActivity extends CustomActivity
 
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, homeFragment)
+                .replace(R.id.container, new HomeFragment())
                 .commit();
 
-        Bundle bundle = new Bundle();
-        bundle.putString("selectedSearchItem", "News");
-        homeFragment.setArguments(bundle);
+//        Bundle bundle = new Bundle();
+//        bundle.putString("selectedSearchItem", "News");
+//        homeFragment.setArguments(bundle);
 
 //        new FetchFeedTask().execute((Void) null);
 //        getCall(getContext(), "https://www.vanguardngr.com/news/feed/", "Loading...", 1);
@@ -134,7 +135,7 @@ public class HomeActivity extends CustomActivity
             @Override
             public void onAdLoaded() {
                 Log.d("interestitial_check", "Loaded");
-                mInterstitialAd.show();
+//                mInterstitialAd.show();
                 // Code to be executed when an ad finishes loading.
             }
 
@@ -225,7 +226,7 @@ public class HomeActivity extends CustomActivity
             toolbar.setVisibility(View.VISIBLE);
 //            Fragment homefragment = new HomeFragment();
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, homeFragment)
+                    .replace(R.id.container, new HomeFragment())
                     .commit();
             btn_chat.setImageResource(R.drawable.chat_gray);
             btn_profile.setImageResource(R.drawable.profile_inactive);
@@ -233,9 +234,9 @@ public class HomeActivity extends CustomActivity
             btn_home.setImageResource(R.drawable.home_active);
             btn_hot.setImageResource(R.drawable.hot_inactive);
 
-            Bundle bundle = new Bundle();
-            bundle.putString("selectedSearchItem", "News");
-            homeFragment.setArguments(bundle);
+//            Bundle bundle = new Bundle();
+//            bundle.putString("selectedSearchItem", "News");
+//            homeFragment.setArguments(bundle);
 
         } else if (v == btn_hot) {
             toolbar.setVisibility(View.VISIBLE);
@@ -295,7 +296,7 @@ public class HomeActivity extends CustomActivity
 
                 @Override
                 public void run() {
-                    doubleBackToExitPressedOnce=false;
+                    doubleBackToExitPressedOnce = false;
                 }
             }, 2000);
         }
@@ -400,43 +401,20 @@ public class HomeActivity extends CustomActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_business) {
+        if (id == R.id.nav_home) {
 //            Fragment homefragment = new HomeFragment();
 
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, homeFragment)
-                    .commit();
-            Bundle bundle = new Bundle();
-            bundle.putString("selectedSearchItem", "Business");
-            homeFragment.setArguments(bundle);
-        } else if (id == R.id.nav_finance) {
 
-        } else if (id == R.id.nav_sports) {
+        } else if (id == R.id.nav_my_profile) {
 
-            Fragment homefragment = new HomeFragment();
+        } else if (id == R.id.nav_saved) {
 
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, homefragment)
-                    .commit();
-            Bundle bundle = new Bundle();
-            bundle.putString("selectedSearchItem", "Sports");
-            homefragment.setArguments(bundle);
-
-        } else if (id == R.id.nav_entertainment) {
-
-            Fragment homefragment = new HomeFragment();
-
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, homefragment)
-                    .commit();
-            Bundle bundle = new Bundle();
-            bundle.putString("selectedSearchItem", "Entertainment");
-            homefragment.setArguments(bundle);
+        } else if (id == R.id.nav_history) {
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_settings) {
+            startActivity(new Intent(getContext(), SettingsActivity.class));
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

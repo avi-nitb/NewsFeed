@@ -17,7 +17,7 @@
             android:layout_centerVertical="true"
             android:adjustViewBounds="true"
             android:background="@null"
-            android:padding="20dp"
+            android:padding="1dp"
             android:scaleType="fitXY"
             android:src="@drawable/close" />
 
@@ -168,11 +168,13 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
             android:padding="10dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
-            <TextView
+            <com.paulfy.utils.SpinnerTextView
+                android:id="@+id/spin_filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:entries="@array/comments_filter"
                 android:drawableLeft="@drawable/pin"
                 android:drawablePadding="10dp"
                 android:drawableRight="@drawable/dropdown"

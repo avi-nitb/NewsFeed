@@ -5,27 +5,27 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_business"
-            android:title="Business" />
+            android:id="@+id/nav_home"
+            android:title="Home" />
         <item
-            android:id="@+id/nav_finance"
-            android:title="Finance" />
+            android:id="@+id/nav_my_profile"
+            android:title="My Profile" />
         <item
-            android:id="@+id/nav_sports"
-            android:title="Sports" />
+            android:id="@+id/nav_saved"
+            android:title="Saved" />
         <item
-            android:id="@+id/nav_entertainment"
-            android:title="Entertainment" />
+            android:id="@+id/nav_history"
+            android:title="History" />
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
                 android:id="@+id/nav_share"
-                android:title="My Feeds" />
+                android:title="Share App" />
             <item
-                android:id="@+id/nav_send"
-                android:title="Bookmarks" />
+                android:id="@+id/nav_settings"
+                android:title="Settings" />
         </menu>
     </item>
 

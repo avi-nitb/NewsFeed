@@ -37,9 +37,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         String title = null;
         if (position == 0) {
-            title = "Home";
+            title = "New";
         } else if (position == 1) {
-            title = "Popular";
+            title = "Trending";
         }
         return title;
     }

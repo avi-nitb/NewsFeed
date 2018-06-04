@@ -36,6 +36,12 @@
             android:name=".SignupActivity"
             android:screenOrientation="sensorPortrait" />
         <activity
+            android:name=".SettingsActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".InfoDetailsActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
             android:name=".HomeActivity"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait"

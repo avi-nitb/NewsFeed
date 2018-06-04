@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar"></include>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray_light"
+                android:fontFamily="@font/app_font"
+                android:padding="15dp"
+                android:text="ACCOUNT"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/txt_switch_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:fontFamily="@font/app_font"
+                android:padding="15dp"
+                android:text="Switch Users"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/txt_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:fontFamily="@font/app_font"
+                android:padding="15dp"
+                android:text="Logout"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/txt_about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray_light"
+                android:fontFamily="@font/app_font"
+                android:padding="15dp"
+                android:text="ABOUT"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/txt_content_policy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:fontFamily="@font/app_font"
+                android:padding="15dp"
+                android:text="Content Policy"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/txt_privacy_policy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:fontFamily="@font/app_font"
+                android:padding="15dp"
+                android:text="Privacy Policy"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/txt_user_agreement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:fontFamily="@font/app_font"
+                android:padding="15dp"
+                android:text="User Agreemet"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/txt_ack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:fontFamily="@font/app_font"
+                android:padding="15dp"
+                android:text="Acknowledgements"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray_light"
+                android:fontFamily="@font/app_font"
+                android:padding="15dp"
+                android:text="BUILD INFORMATION"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/txt_build_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:fontFamily="@font/app_font"
+                android:padding="15dp"
+                android:text="V1.0"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

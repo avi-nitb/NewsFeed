@@ -86,15 +86,15 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
 //            }
         rv_news.setVisibility(View.VISIBLE);
         p.put("user_id", MyApp.getApplication().readUser().getId());
-        showLoadingDialog("");
-        if (SingleInstance.getInstance().getNews().size() > 0) {
-            popularTab_adapter = new PopularTab_Adapter(HomeTabFragment.this, SingleInstance.getInstance().getNews());
-            rv_news.setAdapter(popularTab_adapter);
-            postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "", 2);
-        } else {
-            startProgress();
-            postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "Loading Please Wait...", 2);
-        }
+//        showLoadingDialog("");
+//        if (SingleInstance.getInstance().getNews().size() > 0) {
+//            popularTab_adapter = new PopularTab_Adapter(HomeTabFragment.this, SingleInstance.getInstance().getNews());
+//            rv_news.setAdapter(popularTab_adapter);
+//            postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "", 2);
+//        } else {
+//            startProgress();
+//            postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "Loading Please Wait...", 2);
+//        }
 
 //        }
 
@@ -119,6 +119,18 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
         return myView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (SingleInstance.getInstance().getNews().size() > 0) {
+            popularTab_adapter = new PopularTab_Adapter(HomeTabFragment.this, SingleInstance.getInstance().getNews());
+            rv_news.setAdapter(popularTab_adapter);
+            postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "", 2);
+        } else {
+            showLoadingDialog("");
+            postCall(getContext(), AppConstants.BASE_URL + "getnewsByCategoriesId", p, "Loading Please Wait...", 2);
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -129,13 +141,14 @@ public class HomeTabFragment extends CustomFragment implements CustomFragment.Re
     @Override
     public void onJsonObjectResponseReceived(JSONObject o, int callNumber) {
         if (callNumber == 2 && o.optInt("code") == 200) {
-            dismissDialog();
+
             newsdata.clear();
 
             newsModel = new Gson().fromJson(o.toString(), NewsModel.class);
             newsdata.addAll(newsModel.getData());
             SingleInstance.getInstance().setNews(newsdata);
             rv_news.setVisibility(View.VISIBLE);
+            dismissDialog();
             popularTab_adapter = new PopularTab_Adapter(HomeTabFragment.this, SingleInstance.getInstance().getNews());
             rv_news.setAdapter(popularTab_adapter);
             progressBar.clearAnimation();

@@ -27,6 +27,7 @@ import com.paulfy.CommentsActivity;
 import com.paulfy.R;
 import com.paulfy.application.AppConstants;
 import com.paulfy.application.MyApp;
+import com.paulfy.fragments.CategoriesFragment;
 import com.paulfy.fragments.HomeTabFragment;
 import com.paulfy.fragments.PopularTabFragment;
 import com.paulfy.model.CategoryModel;
@@ -193,8 +194,12 @@ public class PopularTab_Adapter extends RecyclerView.Adapter<PopularTab_Adapter.
                 try {
                     ((PopularTabFragment) context).clickNews(data.get(getLayoutPosition()));
                 } catch (Exception e) {
+                    try{
+                        ((HomeTabFragment) context).clickNews(data.get(getLayoutPosition()));
+                    }catch (Exception er){
+                        ((CategoriesFragment) context).clickNews(data.get(getLayoutPosition()));
+                    }
 
-                    ((HomeTabFragment) context).clickNews(data.get(getLayoutPosition()));
                 }
                 //MyApp.popMessage("Details", data.get(getLayoutPosition()).getDescription(), context);
             } else if (v == txt_likes) {

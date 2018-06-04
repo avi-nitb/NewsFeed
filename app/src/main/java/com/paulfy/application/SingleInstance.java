@@ -15,6 +15,15 @@ public class SingleInstance {
     private SingleInstance() {
     }
     private List<NewsModel.Data> news= new ArrayList<>();
+    private List<NewsModel.Data> popularNews= new ArrayList<>();
+
+    public List<NewsModel.Data> getPopularNews() {
+        return popularNews;
+    }
+
+    public void setPopularNews(List<NewsModel.Data> popularNews) {
+        this.popularNews = popularNews;
+    }
 
     public List<NewsModel.Data> getNews()
     {
@@ -26,17 +35,17 @@ public class SingleInstance {
         this.news = news;
     }
 
-    private List<NewsModel.Data> new_newsList= new ArrayList<>();
+//    private List<NewsModel.Data> new_newsList= new ArrayList<>();
 
-    public List<NewsModel.Data> getNew_newsList()
-    {
-        return new_newsList;
-    }
+//    public List<NewsModel.Data> getNew_newsList()
+//    {
+//        return new_newsList;
+//    }
 
-    public void setNew_newsList(List<NewsModel.Data> new_newsList)
-    {
-        this.new_newsList = new_newsList;
-    }
+//    public void setNew_newsList(List<NewsModel.Data> new_newsList)
+//    {
+//        this.new_newsList = new_newsList;
+//    }
 
     public NewsModel.Data getDataToLoad() {
         return dataToLoad;

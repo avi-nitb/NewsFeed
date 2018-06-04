@@ -7,11 +7,19 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LevelListDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -29,13 +37,20 @@ import com.paulfy.application.AppConstants;
 import com.paulfy.application.MyApp;
 import com.paulfy.application.SingleInstance;
 import com.paulfy.model.NewsModel;
+import com.paulfy.utils.AppTextView;
 import com.paulfy.utils.DipPixelHelper;
+import com.paulfy.utils.PicassoImageGetter;
 import com.thefinestartist.finestwebview.FinestWebView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -52,7 +67,8 @@ import ss.com.bannerslider.views.BannerSlider;
 
 public class NewsDetailsActivity extends CustomActivity implements CustomActivity.ResponseCallback {
 
-    private TextView txt_description, txt_title, txt_cat_date;
+    private TextView txt_title, txt_cat_date;
+    private AppTextView txt_description;
     private List<String> imgUrls = new ArrayList<>();
     private BannerSlider bannerSlider;
     private NewsModel.Data d;
@@ -167,6 +183,15 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
                 // to the app after tapping on an ad.
             }
         });
+
+//        PicassoImageGetter imageGetter = new PicassoImageGetter(txt_description);
+//        Spannable html;
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+//            html = (Spannable) Html.fromHtml(d.getDescription(), Html.FROM_HTML_MODE_LEGACY, imageGetter, null);
+//        } else {
+//            html = (Spannable) Html.fromHtml(d.getDescription(), imageGetter, null);
+//        }
+//        txt_description.setText(html);
     }
 
     @Override
@@ -176,7 +201,6 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
                 RequestParams p = new RequestParams();
                 p.put("news_id", d.getId());
                 p.put("user_id", MyApp.getApplication().readUser().getId());
-
                 postCall(this, AppConstants.BASE_URL + "bookmarkNews", p, "Saving...", 5);
                 break;
             case R.id.action_twitter:
@@ -362,4 +386,56 @@ public class NewsDetailsActivity extends CustomActivity implements CustomActivit
             throw new RuntimeException("URLEncoder.encode() failed for " + s);
         }
     }
+
+    class LoadImage extends AsyncTask<Object, Void, Bitmap> {
+
+        private static final String TAG = "";
+        private LevelListDrawable mDrawable;
+
+        @Override
+        protected Bitmap doInBackground(Object... params) {
+            String source = (String) params[0];
+            mDrawable = (LevelListDrawable) params[1];
+            Log.d(TAG, "doInBackground " + source);
+            try {
+                InputStream is = new URL(source).openStream();
+                return BitmapFactory.decodeStream(is);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            Log.d(TAG, "onPostExecute drawable " + mDrawable);
+            Log.d(TAG, "onPostExecute bitmap " + bitmap);
+            if (bitmap != null) {
+                BitmapDrawable d = new BitmapDrawable(bitmap);
+                mDrawable.addLevel(1, 1, d);
+                mDrawable.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
+                mDrawable.setLevel(1);
+                // i don't know yet a better way to refresh TextView
+                // mTv.invalidate() doesn't work as expected
+                CharSequence t = txt_description.getText();
+                txt_description.setText(t);
+            }
+        }
+    }
+
+//    @Override
+//    public Drawable getDrawable(String source) {
+//        LevelListDrawable d = new LevelListDrawable();
+//        Drawable empty = getResources().getDrawable(R.drawable.logo_paulfy);
+//        d.addLevel(0, 0, empty);
+//        d.setBounds(0, 0, MyApp.getDisplayWidth(), empty.getIntrinsicHeight());
+//
+//        new LoadImage().execute(source, d);
+//
+//        return d;
+//    }
 }

@@ -1,5 +1,6 @@
 package com.paulfy.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
+import com.paulfy.NewsDetailsActivity;
 import com.paulfy.R;
 import com.paulfy.adpter.HomeTabAdapter;
 import com.paulfy.adpter.PopularTab_Adapter;
@@ -233,4 +235,8 @@ public class CategoriesFragment extends CustomFragment implements CustomFragment
     }
 
 
+    public void clickNews(NewsModel.Data data) {
+        SingleInstance.getInstance().setDataToLoad(data);
+        startActivity(new Intent(getActivity(), NewsDetailsActivity.class));
+    }
 }
